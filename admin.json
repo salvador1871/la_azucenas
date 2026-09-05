@@ -1,0 +1,11 @@
+{
+    "users": [
+        {
+            "username": "admin",
+            "password": "flores2026",
+            "name": "Administrador",
+            "role": "admin"
+        }
+    ],
+    "sessionTimeout": 3600
+}

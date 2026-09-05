@@ -1,0 +1,2790 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores & Arte - Floristería | Arreglos Florales Exclusivos</title>
+    <meta name="description" content="Flores & Arte - Tu floristería de confianza. Arreglos florales exclusivos, ramos de boda, entrega a domicilio y suscripciones florales en Ciudad de México.">
+    <meta name="keywords" content="floristería, flores, arreglos florales, ramos, boda, entrega domicilio, CDMX, flores frescas">
+    <meta name="author" content="Flores & Arte">
+    <meta property="og:title" content="Flores & Arte - Floristería">
+    <meta property="og:description" content="Arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a7c59;
+            --primary-light: #6ba37a;
+            --primary-dark: #345a40;
+            --accent: #d4a574;
+            --accent-light: #e8c9a0;
+            --bg: #faf8f5;
+            --bg-card: #ffffff;
+            --text: #2c2c2c;
+            --text-light: #6b6b6b;
+            --text-white: #ffffff;
+            --border: #e8e0d8;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --transition: 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .navbar.scrolled { box-shadow: var(--shadow); }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-logo span { font-size: 1.8rem; display: flex; align-items: center; }
+        .nav-logo img { width: 32px; height: 32px; object-fit: contain; border-radius: 6px; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta {
+            background: var(--primary);
+            color: var(--text-white) !important;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700 !important;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover { background: var(--primary-dark) !important; color: var(--text-white) !important; }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 30%, #fff8e1 70%, #fce4ec 100%);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        .hero::before {
+            content: '🌸';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.07;
+            top: -2rem;
+            right: -2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+        .hero::after {
+            content: '🌿';
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.06;
+            bottom: 2rem;
+            left: -1rem;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+        .hero-text h1 em {
+            color: var(--accent);
+            font-style: italic;
+        }
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 480px;
+        }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn {
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-white);
+            border-color: var(--primary);
+        }
+        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-outline:hover { background: var(--primary); color: var(--text-white); transform: translateY(-2px); }
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero-image {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            box-shadow: var(--shadow-hover);
+            animation: morphBlob 8s ease-in-out infinite;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+        }
+        @keyframes morphBlob {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            25% { border-radius: 58% 42% 46% 54% / 63% 36% 64% 37%; }
+            50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+            75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
+        }
+
+        /* ── SECTIONS ── */
+        section { padding: 6rem 2rem; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .section-tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--primary-dark);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ── PRODUCTS ── */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+        .product-image {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+        .product-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
+        }
+        .product-info { padding: 1.5rem; }
+        .product-info h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .product-info p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem; }
+        .product-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .product-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ── ABOUT ── */
+        .about-section { background: var(--bg-card); }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .about-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            background: linear-gradient(135deg, #e8f5e9, #fff8e1);
+        }
+        .about-text h2 { font-size: 2.2rem; color: var(--primary-dark); margin-bottom: 1.5rem; }
+        .about-text p { color: var(--text-light); margin-bottom: 1rem; font-size: 1.05rem; }
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .about-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .about-feature span { font-size: 1.5rem; }
+        .about-feature strong { display: block; margin-bottom: 0.2rem; }
+        .about-feature p { font-size: 0.9rem !important; margin: 0 !important; }
+
+        /* ── SERVICES ── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        .service-card:hover { border-color: var(--primary-light); transform: translateY(-4px); }
+        .service-icon { font-size: 3rem; margin-bottom: 1.5rem; }
+        .service-card h3 { font-size: 1.2rem; margin-bottom: 0.8rem; }
+        .service-card p { color: var(--text-light); font-size: 0.95rem; }
+
+        /* ── TESTIMONIALS ── */
+        .testimonials-section { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; }
+        .testimonials-section .section-header h2 { color: white; }
+        .testimonials-section .section-header p { color: rgba(255,255,255,0.8); }
+        .testimonials-section .section-tag { background: rgba(255,255,255,0.2); color: white; }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .testimonial-stars { color: var(--accent); font-size: 1.2rem; margin-bottom: 1rem; }
+        .testimonial-card blockquote {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+        .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .testimonial-name { font-weight: 700; }
+        .testimonial-role { font-size: 0.85rem; opacity: 0.7; }
+
+        /* ── CONTACT ── */
+        .contact-section { background: var(--bg-card); }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+        .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .contact-item strong { display: block; margin-bottom: 0.3rem; }
+        .contact-item p { color: var(--text-light); font-size: 0.95rem; }
+        .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--bg);
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+
+        /* ── FOOTER ── */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-brand h3 { font-size: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .footer-brand p { opacity: 0.8; font-size: 0.95rem; line-height: 1.7; }
+        .footer h4 { font-size: 1rem; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.6rem; }
+        .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+        .footer-links a:hover { color: white; }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        .footer-social { display: flex; gap: 1rem; }
+        .footer-social a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        .footer-social a:hover { opacity: 1; }
+
+        /* ── SCROLL TO TOP ── */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+        .scroll-top.visible { opacity: 1; visibility: visible; }
+        .scroll-top:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
+        /* ── ADMIN LINK ── */
+        .admin-link {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: var(--accent);
+            color: var(--primary-dark);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .admin-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+        /* ── ORDER MODAL (INVOICE STYLE) ── */
+        .order-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .order-modal-overlay.open { display: flex; }
+        .order-modal {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.25);
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .order-modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-light);
+            z-index: 5;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        .order-modal-close:hover { background: #f5f5f5; color: var(--text); }
+
+        /* Invoice Header */
+        .invoice-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 2.5rem;
+            border-radius: 20px 20px 0 0;
+        }
+        .invoice-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        .invoice-brand h2 {
+            font-size: 1.6rem;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .invoice-brand p { opacity: 0.8; font-size: 0.85rem; }
+        .invoice-number {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            text-align: right;
+        }
+        .invoice-number small { opacity: 0.8; font-size: 0.75rem; display: block; }
+        .invoice-number strong { font-size: 0.95rem; }
+        .invoice-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            margin: 1rem 0;
+        }
+        .invoice-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+        .invoice-meta div { opacity: 0.9; }
+        .invoice-meta small { opacity: 0.7; display: block; font-size: 0.75rem; }
+
+        /* Invoice Body */
+        .invoice-body { padding: 2rem 2.5rem; }
+        .invoice-section-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        /* Customer Info */
+        .invoice-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .invoice-form-grid .full-width { grid-column: 1 / -1; }
+        .invoice-field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .invoice-field input, .invoice-field textarea, .invoice-field select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--bg);
+        }
+        .invoice-field input:focus, .invoice-field textarea:focus, .invoice-field select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74,124,89,0.12);
+        }
+
+        /* Address with map */
+        .address-map-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .map-preview {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            overflow: hidden;
+            background: #e8f5e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .map-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .map-preview .map-placeholder {
+            text-align: center;
+            padding: 1rem;
+        }
+        .map-preview .map-placeholder .map-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+        /* Order Items Table */
+        .order-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        .order-items-table th {
+            text-align: left;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            padding: 0.7rem 0.5rem;
+            border-bottom: 2px solid var(--border);
+            font-weight: 700;
+        }
+        .order-items-table td {
+            padding: 0.8rem 0.5rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .order-item-emoji { font-size: 1.5rem; }
+        .order-item-name { font-weight: 700; font-size: 0.95rem; }
+        .order-item-desc { font-size: 0.8rem; color: var(--text-light); }
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            width: fit-content;
+        }
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--bg);
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .qty-btn:hover { background: var(--primary); color: white; }
+        .qty-value {
+            width: 36px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            padding: 0.3rem 0;
+        }
+        .order-item-price { font-weight: 700; color: var(--primary); white-space: nowrap; }
+        .order-item-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.3rem;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+        .order-item-remove:hover { background: #fde8e8; }
+
+        /* Add Product Button */
+        .add-product-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .add-product-row select {
+            flex: 1;
+            padding: 0.6rem 0.9rem;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            background: var(--bg);
+        }
+        .add-product-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .add-product-btn:hover { background: var(--primary-dark); }
+
+        /* Order Totals */
+        .order-totals {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+        }
+        .order-total-row.grand {
+            border-top: 2px solid var(--primary);
+            margin-top: 0.5rem;
+            padding-top: 0.7rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Delivery Options */
+        .delivery-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Notes */
+        .invoice-notes textarea {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 70px;
+            transition: var(--transition);
+        }
+        .invoice-notes textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Action Buttons */
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+        }
+        .btn-whatsapp {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+        .btn-whatsapp:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(37,211,102,0.3); }
+        .btn-whatsapp svg { width: 22px; height: 22px; fill: white; }
+        .btn-print-order {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .btn-print-order:hover { background: var(--primary); color: white; }
+        .btn-save-order {
+            padding: 1rem 1.5rem;
+            background: var(--accent);
+            color: var(--primary-dark);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .btn-save-order:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,165,116,0.3); }
+
+        /* Order Section on main page */
+        .order-section {
+            background: linear-gradient(135deg, #f0faf3 0%, #e8f5e9 100%);
+            text-align: center;
+        }
+        .order-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1.1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 30px rgba(74,124,89,0.3);
+            text-decoration: none;
+        }
+        .order-cta:hover { background: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(74,124,89,0.4); }
+
+        /* WhatsApp floating button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 5.5rem;
+            left: 2rem;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            z-index: 998;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37,211,102,0.5); }
+        .whatsapp-float svg { width: 30px; height: 30px; fill: white; }
+
+        /* Order number badge */
+        .order-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.7rem;
+        }
+
+        /* ── DARK MODE ── */
+        body.dark-mode {
+            --bg: #1a1a2e;
+            --bg-card: #16213e;
+            --text: #e0e0e0;
+            --text-light: #a0a0a0;
+            --border: #2a2a4a;
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .navbar { background: rgba(26, 26, 46, 0.95); }
+        body.dark-mode .order-modal { background: #16213e; }
+        body.dark-mode .invoice-body { background: #16213e; }
+        body.dark-mode .order-items-table th { color: #a0a0a0; }
+        body.dark-mode .order-items-table td { border-bottom-color: #2a2a4a; }
+        body.dark-mode .invoice-field input,
+        body.dark-mode .invoice-field select,
+        body.dark-mode .invoice-field textarea { background: #1a1a2e; color: #e0e0e0; border-color: #2a2a4a; }
+        body.dark-mode .add-product-row select { background: #1a1a2e; color: #e0e0e0; }
+        body.dark-mode .qty-value { border-color: #2a2a4a; }
+        body.dark-mode .qty-btn { background: #1a1a2e; }
+        body.dark-mode .order-totals { background: #1a1a2e; }
+        body.dark-mode .invoice-notes textarea { background: #1a1a2e; color: #e0e0e0; }
+
+        .dark-toggle {
+            background: none;
+            border: 2px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--text);
+        }
+        .dark-toggle:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ── FLOATING ORDER CTA ── */
+        .floating-order {
+            position: fixed;
+            bottom: 8rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.9rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 25px rgba(74,124,89,0.4);
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            animation: floatBounce 3s ease-in-out infinite;
+        }
+        .floating-order:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 35px rgba(74,124,89,0.5); }
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .floating-order.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        /* ── PHOTO GALLERY CAROUSEL ── */
+        .gallery-section { padding: 6rem 2rem; background: var(--bg); overflow: hidden; }
+        .gallery-carousel-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .gallery-carousel-track-container {
+            overflow: hidden;
+            border-radius: var(--radius);
+            margin: 0 3rem;
+        }
+        .gallery-carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+        .gallery-item {
+            min-width: 280px;
+            aspect-ratio: 1;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            background: linear-gradient(135deg, #e8f5e9, #fce4ec);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: var(--shadow);
+            flex: 0 0 auto;
+            margin: 0 0.5rem;
+            scroll-snap-align: center;
+        }
+        .gallery-item:hover { transform: scale(1.05); box-shadow: var(--shadow-hover); z-index: 2; }
+        .gallery-item.active-slide { transform: scale(1.08); box-shadow: 0 12px 40px rgba(0,0,0,0.2); z-index: 3; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-item .gallery-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+            color: white;
+            padding: 1.2rem;
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+        .gallery-overlay strong { font-size: 0.95rem; }
+        .gallery-overlay .gallery-sub { font-size: 0.75rem; opacity: 0.8; margin-top: 0.2rem; }
+
+        /* Carousel Arrows */
+        .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .gallery-arrow:hover { background: var(--primary); color: white; transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+        .gallery-arrow.prev { left: 0; }
+        .gallery-arrow.next { right: 0; }
+        .gallery-arrow:active { transform: translateY(-50%) scale(0.95); }
+
+        /* Carousel Dots */
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+        .gallery-dot.active { background: var(--primary); transform: scale(1.3); }
+        .gallery-dot:hover { background: var(--primary-light); }
+
+        /* Carousel progress bar */
+        .gallery-progress {
+            width: 100%;
+            height: 3px;
+            background: var(--border);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        .gallery-progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Pause button */
+        .gallery-pause {
+            position: absolute;
+            top: -2.5rem;
+            right: 0;
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+        .gallery-pause:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Item counter */
+        .gallery-counter {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        /* ── MODAL ALERT ── */
+        .modal-alert-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 5000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .modal-alert-overlay.open { display: flex; }
+        .modal-alert-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            animation: modalAlertIn 0.35s ease;
+        }
+        @keyframes modalAlertIn {
+            from { opacity: 0; transform: scale(0.85) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-alert-icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            animation: alertBounce 0.6s ease 0.2s;
+        }
+        @keyframes alertBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .modal-alert-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+        .modal-alert-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .modal-alert-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+        .modal-alert-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            background: white;
+            color: var(--text);
+            transition: var(--transition);
+        }
+        .modal-alert-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .modal-alert-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .modal-alert-btn.primary:hover { background: var(--primary-dark); }
+        .modal-alert-btn.danger {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        .modal-alert-btn.danger:hover { background: #c0392b; }
+        body.dark-mode .modal-alert-card { background: #16213e; }
+        body.dark-mode .modal-alert-btn { background: #1a1a2e; color: #e0e0e0; border-color: #2a2a4a; }
+
+        /* ── LIGHTBOX ── */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .lightbox-overlay.open { display: flex; }
+        .lightbox-content {
+            max-width: 80vw;
+            max-height: 80vh;
+            font-size: 12rem;
+            text-align: center;
+            animation: lightboxIn 0.3s ease;
+        }
+        .lightbox-content img { max-width: 100%; max-height: 80vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .lightbox-content .lb-text { font-size: 10rem; }
+        .lightbox-close {
+            position: absolute;
+            top: 1.5rem; right: 2rem;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+            border: none;
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+        .lightbox-prev { left: 1.5rem; }
+        .lightbox-next { right: 1.5rem; }
+        @keyframes lightboxIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+        /* ── PROMOTIONS BANNER ── */
+        .promo-section {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            padding: 1.5rem 2rem;
+            text-align: center;
+            display: none;
+        }
+        .promo-section.active { display: block; }
+        .promo-content { max-width: 800px; margin: 0 auto; }
+        .promo-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            animation: promoPulse 2s infinite;
+        }
+        @keyframes promoPulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
+        .promo-section h3 { font-size: 1.3rem; color: var(--primary-dark); margin-bottom: 0.3rem; }
+        .promo-section p { font-size: 0.95rem; color: var(--text-light); }
+
+        /* ── LOYALTY BADGE ── */
+        .loyalty-badge {
+            display: none;
+            align-items: center;
+            gap: 0.3rem;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #5a3e00;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .loyalty-badge.show { display: inline-flex; }
+
+        /* ── MAP EMBED (CONTACT) ── */
+        .contact-map {
+            width: 100%;
+            height: 250px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-top: 1rem;
+            box-shadow: var(--shadow);
+        }
+        .contact-map iframe { width: 100%; height: 100%; border: none; }
+
+        /* ── SEASONAL THEME OVERRIDES ── */
+        body.season-christmas { --primary: #c0392b; --primary-dark: #96281b; --primary-light: #e74c3c; --accent: #27ae60; --accent-light: #a8e6cf; }
+        body.season-valentine { --primary: #e91e63; --primary-dark: #c2185b; --primary-light: #f06292; --accent: #ff5252; --accent-light: #ffcdd2; }
+        body.season-halloween { --primary: #e65100; --primary-dark: #bf360c; --primary-light: #ff9800; --accent: #4a148c; --accent-light: #ce93d8; }
+        body.season-mothers { --primary: #ad1457; --primary-dark: #880e4f; --primary-light: #d81b60; --accent: #f48fb1; --accent-light: #fce4ec; }
+        body.season-summer { --primary: #0277bd; --primary-dark: #01579b; --primary-light: #039be5; --accent: #ff6f00; --accent-light: #fff3e0; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--bg);
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+                transition: var(--transition);
+            }
+            .nav-links.open { right: 0; }
+            .hero-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-text p { margin: 0 auto 2rem; }
+            .hero-buttons { justify-content: center; }
+            .hero-image { max-width: 300px; font-size: 5rem; }
+            .about-grid, .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            .form-row { grid-template-columns: 1fr; }
+            .order-modal { max-width: 100%; margin: 0.5rem; border-radius: 16px; }
+            .order-modal-overlay { padding: 0.5rem; }
+            .invoice-header, .invoice-body { padding: 1.2rem; }
+            .invoice-header-top { flex-direction: column; gap: 0.8rem; }
+            .invoice-form-grid { grid-template-columns: 1fr; }
+            .delivery-row { grid-template-columns: 1fr; }
+            .order-actions { flex-direction: column; }
+            .whatsapp-float { bottom: 5rem; left: 1rem; width: 50px; height: 50px; }
+            .whatsapp-float svg { width: 24px; height: 24px; }
+            .floating-order { bottom: 7rem; right: 1rem; padding: 0.7rem 1.2rem; font-size: 0.85rem; }
+            .gallery-item { min-width: 200px; }
+            .gallery-carousel-track-container { margin: 0 2.5rem; }
+            .gallery-arrow { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="nav-logo">
+                <span id="navLogoIcon">🌿</span> <span class="editable" data-key="nav-logo">Flores & Arte</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>                    <li><a href="#" onclick="openOrderModal(); return false;">Pedidos</a></li>
+                    <li><a href="#contacto" class="nav-cta">Contactar</a></li>
+            </ul>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+                <span class="loyalty-badge" id="loyaltyBadge">⭐ Cliente VIP</span>
+                <button class="dark-toggle" id="darkToggle" title="Modo oscuro">🌙</button>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="editable" data-key="hero-title">Donde cada flor cuenta una <em>historia</em></span></h1>
+                <p class="editable" data-key="hero-desc">Creamos arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables. Con más de 15 años de experiencia, cada pétalo es elegido con amor.</p>
+                <div class="hero-buttons">
+                    <a href="#productos" class="btn btn-primary">Ver Colección 🌸</a>
+                    <a href="#" class="btn btn-outline" onclick="openOrderModal(); return false;">Hacer Pedido</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image" id="heroImage">🌺</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROMOTIONS BANNER -->
+    <section class="promo-section" id="promoSection">
+        <div class="promo-content">
+            <span class="promo-badge" id="promoBadge">🔥 Oferta Especial</span>
+            <h3 id="promoTitle"></h3>
+            <p id="promoDesc"></p>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="productos">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag editable" data-key="products-tag">Nuestra Colección</span>
+                <h2 class="editable" data-key="products-title">Arreglos Florales Exclusivos</h2>
+                <p class="editable" data-key="products-desc">Descubre nuestras creaciones más populares, diseñadas para cada ocasión y emoción.</p>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section" id="nosotros">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-image" id="aboutImage">🌷</div>
+                <div class="about-text">
+                    <span class="section-tag editable" data-key="about-tag">Sobre Nosotros</span>
+                    <h2 class="editable" data-key="about-title">Pasión por las flores desde 2008</h2>
+                    <p class="editable" data-key="about-p1">Somos una florería familiar con más de 15 años de trayectoria creando arreglos que enamoran. Nuestro equipo de expertos floristas selecciona cada flor cuidadosamente para garantizar frescura y belleza incomparables.</p>
+                    <p class="editable" data-key="about-p2">Creemos que las flores son el lenguaje universal del amor, la alegría y la gratitud. Por eso, nos esforzamos en transformar cada bouquet en una obra de arte.</p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <span>🌱</span>
+                            <div>
+                                <strong>Flores Frescas</strong>
+                                <p>Directo del vivero a tu hogar</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <span>🚚</span>
+                            <div>
+                                <strong>Entrega Rápida</strong>
+                                <p>Mismo día en tu ciudad</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <span>🎨</span>
+                            <div>
+                                <strong>Diseño Único</strong>
+                                <p>Arreglos personalizados</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <span>💝</span>
+                            <div>
+                                <strong>Con Amor</strong>
+                                <p>Cada detalle importa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="servicios">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag editable" data-key="services-tag">Servicios</span>
+                <h2 class="editable" data-key="services-title">Lo que ofrecemos</h2>
+                <p class="editable" data-key="services-desc">Más que flores, creamos experiencias inolvidables para cada ocasión especial.</p>
+            </div>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Services rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- PHOTO GALLERY -->
+    <section class="gallery-section" id="galeria">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Galería</span>
+                <h2>Nuestro Trabajo en Imágenes</h2>
+                <p>Descubre la belleza de nuestros arreglos en cada detalle. Haz clic para ampliar.</p>
+            </div>
+            <div class="gallery-carousel-wrapper">
+                <button class="gallery-pause" id="galleryPause" onclick="toggleGalleryAutoplay()">⏸ Pausa</button>
+                <button class="gallery-arrow prev" onclick="slideGallery(-1)" aria-label="Anterior">‹</button>
+                <div class="gallery-carousel-track-container">
+                    <div class="gallery-carousel-track" id="galleryTrack"></div>
+                </div>
+                <button class="gallery-arrow next" onclick="slideGallery(1)" aria-label="Siguiente">›</button>
+                <div class="gallery-dots" id="galleryDots"></div>
+                <div class="gallery-progress"><div class="gallery-progress-bar" id="galleryProgress"></div></div>
+                <div class="gallery-counter" id="galleryCounter"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section" id="testimonios">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag editable" data-key="testimonials-tag">Testimonios</span>
+                <h2 class="editable" data-key="testimonials-title">Lo que dicen nuestros clientes</h2>
+                <p class="editable" data-key="testimonials-desc">Miles de clientes satisfechos confían en nosotros para sus momentos más especiales.</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Testimonials rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ORDER SECTION -->
+    <section class="order-section" id="pedir">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Haz tu Pedido</span>
+                <h2>Pide tus flores favoritas</h2>
+                <p>Arma tu pedido personalizado y envíalo directo por WhatsApp. ¡Rápido y fácil!</p>
+            </div>
+            <button class="order-cta" onclick="openOrderModal()">🛒 Hacer Pedido Ahora</button>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section" id="contacto">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag editable" data-key="contact-tag">Contacto</span>
+                <h2 class="editable" data-key="contact-title">Estamos para servirte</h2>
+                <p class="editable" data-key="contact-desc">¿Tienes una idea en mente? ¡Hablemos y la hacemos realidad!</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info" id="contactInfo">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Dirección</strong>
+                            <p class="editable" data-key="contact-address">Calle de las Flores 123, Centro Histórico, Ciudad de México</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Teléfono</strong>
+                            <p class="editable" data-key="contact-phone">+52 (55) 1234-5678</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <strong>Email</strong>
+                            <p class="editable" data-key="contact-email">hola@floresyarte.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕐</div>
+                        <div>
+                            <strong>Horario</strong>
+                            <p class="editable" data-key="contact-hours">Lun - Sáb: 8:00 AM - 8:00 PM | Dom: 9:00 AM - 3:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="contact-map" id="contactMap"></div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" placeholder="Tu teléfono">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>¿Qué necesitas?</label>
+                        <select>
+                            <option>Arreglo floral personalizado</option>
+                            <option>Ramo de bodas</option>
+                            <option>Arreglo para eventos</option>
+                            <option>Regalo especial</option>
+                            <option>Suscripción de flores</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje</label>
+                        <textarea placeholder="Cuéntanos sobre tu idea o solicitud..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Enviar Mensaje 🌸</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>🌿 <span class="editable" data-key="footer-brand">Flores & Arte</span></h3>
+                <p class="editable" data-key="footer-desc">Transformamos la naturaleza en arte. Cada arreglo es una obra única creada con pasión y dedicación para making tus momentos más especiales aún más memorables.</p>
+            </div>
+            <div>
+                <h4>Navegación</h4>
+                <ul class="footer-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Servicios</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Ramos de Novia</a></li>
+                    <li><a href="#">Arreglos de Mesa</a></li>
+                    <li><a href="#">Bouquets</a></li>
+                    <li><a href="#">Suscripciones</a></li>
+                    <li><a href="#">Eventos</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contacto</h4>
+                <ul class="footer-links">
+                    <li><a href="#">📞 +52 (55) 1234-5678</a></li>
+                    <li><a href="#">✉️ hola@floresyarte.com</a></li>
+                    <li><a href="#">📍 CDMX, México</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="editable" data-key="footer-copy">© 2026 Flores & Arte. Todos los derechos reservados. Hecho con 💚</p>
+            <div class="footer-social">
+                <a href="#">📷</a>
+                <a href="#">📘</a>
+                <a href="#">🐦</a>
+                <a href="#">📌</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING ORDER CTA -->
+    <button class="floating-order hidden" id="floatingOrder" onclick="openOrderModal()">🛒 Pedir Ahora</button>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); navigateLightbox(-1)">‹</button>
+        <div class="lightbox-content" id="lightboxContent"></div>
+        <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); navigateLightbox(1)">›</button>
+    </div>
+
+    <!-- MODAL ALERT -->
+    <div class="modal-alert-overlay" id="modalAlert">
+        <div class="modal-alert-card">
+            <div class="modal-alert-icon" id="modalAlertIcon">🌸</div>
+            <h3 id="modalAlertTitle"></h3>
+            <p id="modalAlertMsg"></p>
+            <div class="modal-alert-actions" id="modalAlertActions">
+                <button class="modal-alert-btn primary" onclick="closeModalAlert(true)">Aceptar</button>
+                <button class="modal-alert-btn" onclick="closeModalAlert(false)" style="display:none;" id="modalAlertCancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCROLL TO TOP -->
+    <button class="scroll-top" id="scrollTop">↑</button>
+
+    <!-- WHATSAPP FLOAT -->
+    <a class="whatsapp-float" id="whatsappFloat" href="#" target="_blank" title="Contactar por WhatsApp">
+        <svg viewBox="0 0 32 32"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.058 9.374L1.054 31.25l6.118-1.97C9.702 31.036 12.764 32 16.004 32 24.83 32 32 24.822 32 16S24.83 0 16.004 0zm9.338 22.608c-.39 1.1-1.93 2.014-3.14 2.27-.824.176-1.9.312-5.508-1.188-4.618-1.922-7.578-6.612-7.808-6.92-.224-.308-1.826-2.432-1.826-4.638 0-2.206 1.16-3.284 1.57-3.734.39-.45.94-.564 1.252-.564.31 0 .62.002.888.016.284.014.664-.106 1.038.79.39.93 1.334 3.24 1.45 3.472.116.232.194.504.038.812-.156.312-.232.504-.464.776-.232.272-.488.608-.696.816-.232.232-.472.484-.202.948.27.464 1.198 1.98 2.57 3.208 1.764 1.58 3.248 2.07 3.712 2.3.464.23.736.194 1.008-.116.272-.31 1.16-1.35 1.472-1.814.312-.464.624-.39 1.052-.234.428.156 2.718 1.282 3.184 1.516.464.234.774.352.89.544.116.194.116 1.11-.274 2.21z"/></svg>
+    </a>
+
+    <!-- ADMIN LINK -->
+    <a href="admin.html" class="admin-link">⚙️ Panel Admin</a>
+
+    <!-- ═══ ORDER MODAL (INVOICE STYLE) ═══ -->
+    <div class="order-modal-overlay" id="orderModal">
+        <div class="order-modal">
+            <button class="order-modal-close" onclick="closeOrderModal()">&times;</button>
+            
+            <!-- Invoice Header -->
+            <div class="invoice-header">
+                <div class="invoice-header-top">
+                    <div class="invoice-brand">
+                        <h2 id="orderBrandLogo">🌿 <span id="orderBrandName">Flores & Arte</span></h2>
+                        <p>Tu floristería de confianza</p>
+                    </div>
+                    <div class="invoice-number">
+                        <small>Pedido N°</small>
+                        <strong id="orderNumber">#0001</strong>
+                    </div>
+                </div>
+                <div class="invoice-divider"></div>
+                <div class="invoice-meta">
+                    <div><small>Fecha del Pedido</small><strong id="orderDate"></strong></div>
+                    <div><small>Método de Pedido</small><strong>📱 WhatsApp</strong></div>
+                </div>
+            </div>
+
+            <!-- Invoice Body -->
+            <div class="invoice-body">
+                <!-- Customer Info -->
+                <div class="invoice-section-title">👤 Datos del Cliente</div>
+                <div class="invoice-form-grid">
+                    <div class="invoice-field">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="of-name" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="invoice-field">
+                        <label>Teléfono *</label>
+                        <input type="tel" id="of-phone" placeholder="Ej: 55 1234 5678">
+                    </div>
+                    <div class="invoice-field">
+                        <label>Email</label>
+                        <input type="email" id="of-email" placeholder="tu@email.com">
+                    </div>
+                    <div class="invoice-field">
+                        <label>Método de Pago</label>
+                        <select id="of-payment">
+                            <option value="Efectivo">💵 Efectivo</option>
+                            <option value="Transferencia">🏦 Transferencia Bancaria</option>
+                            <option value="Tarjeta">💳 Tarjeta de Crédito/Débito</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="invoice-field full-width">
+                        <label>Dirección de Entrega *</label>
+                        <div class="address-map-row">
+                            <div>
+                                <input type="text" id="of-address" placeholder="Escribe tu dirección..." autocomplete="off">
+                                <div id="addressAutocomplete"></div>
+                                <div id="mapPreview" class="map-preview" style="margin-top: 0.8rem;">
+                                    <div class="map-placeholder">
+                                        <div class="map-icon">🗺️</div>
+                                        <p>Escribe una dirección para ver el mapa</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Items -->
+                <div class="invoice-section-title">🛒 Productos del Pedido</div>
+                <div class="add-product-row">
+                    <select id="of-product-select">
+                        <option value="">Seleccionar producto...</option>
+                    </select>
+                    <button class="add-product-btn" onclick="addOrderItem()">+ Agregar</button>
+                </div>
+                <div class="table-container">
+                    <table class="order-items-table" id="orderItemsTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 45px;"></th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th style="width: 30px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderItemsBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="emptyOrderMsg" style="text-align:center; color: var(--text-light); padding: 2rem; border: 2px dashed var(--border); border-radius: 12px; margin-bottom: 1.5rem;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🌹</div>
+                    <p>Agrega productos a tu pedido desde el menú de arriba</p>
+                </div>
+
+                <!-- Totals -->
+                <div class="order-totals" id="orderTotals" style="display: none;">
+                    <div class="order-total-row">
+                        <span>Subtotal</span>
+                        <strong id="orderSubtotal">$0.00</strong>
+                    </div>
+                    <div class="order-total-row grand">
+                        <span>Total</span>
+                        <strong id="orderGrandTotal">$0.00</strong>
+                    </div>
+                </div>
+
+                <!-- Delivery Options -->
+                <div class="invoice-section-title">🚚 Entrega</div>
+                <div class="delivery-row">
+                    <div class="invoice-field">
+                        <label>Fecha de Entrega *</label>
+                        <input type="date" id="of-date">
+                    </div>
+                    <div class="invoice-field">
+                        <label>Hora Preferida</label>
+                        <select id="of-time">
+                            <option value="Mañana (8-12)">Mañana (8:00 - 12:00)</option>
+                            <option value="Tarde (12-6)" selected>Tarde (12:00 - 18:00)</option>
+                            <option value="Noche (6-9)">Noche (18:00 - 21:00)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="invoice-section-title">📝 Notas Adicionales</div>
+                <div class="invoice-notes">
+                    <textarea id="of-notes" placeholder="Instrucciones especiales, mensaje para el tarjeta, colores preferidos, alérgicos, etc."></textarea>
+                </div>
+
+                <!-- Actions -->
+                <div class="order-actions">
+                    <button class="btn-save-order" onclick="saveLocalOrder()">
+                        💾 Guardar Pedido
+                    </button>
+                    <button class="btn-print-order" onclick="printOrder()">
+                        🖨️ Imprimir
+                    </button>
+                    <button class="btn-whatsapp" onclick="sendWhatsAppOrder()">
+                        <svg viewBox="0 0 32 32"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.058 9.374L1.054 31.25l6.118-1.97C9.702 31.036 12.764 32 16.004 32 24.83 32 32 24.822 32 16S24.83 0 16.004 0zm9.338 22.608c-.39 1.1-1.93 2.014-3.14 2.27-.824.176-1.9.312-5.508-1.188-4.618-1.922-7.578-6.612-7.808-6.92-.224-.308-1.826-2.432-1.826-4.638 0-2.206 1.16-3.284 1.57-3.734.39-.45.94-.564 1.252-.564.31 0 .62.002.888.016.284.014.664-.106 1.038.79.39.93 1.334 3.24 1.45 3.472.116.232.194.504.038.812-.156.312-.232.504-.464.776-.232.272-.488.608-.696.816-.232.232-.472.484-.202.948.27.464 1.198 1.98 2.57 3.208 1.764 1.58 3.248 2.07 3.712 2.3.464.23.736.194 1.008-.116.272-.31 1.16-1.35 1.472-1.814.312-.464.624-.39 1.052-.234.428.156 2.718 1.282 3.184 1.516.464.234.774.352.89.544.116.194.116 1.11-.274 2.21z"/></svg>
+                        Enviar Pedido por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ── Default Data ──
+    const DEFAULT_DATA = {
+        navLogo: 'Flores & Arte',
+        logoImage: null,
+        heroTitle: 'Donde cada flor cuenta una <em>historia</em>',
+        heroDesc: 'Creamos arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables. Con más de 15 años de experiencia, cada pétalo es elegido con amor.',
+        heroEmoji: '🌺',
+        productsTag: 'Nuestra Colección',
+        productsTitle: 'Arreglos Florales Exclusivos',
+        productsDesc: 'Descubre nuestras creaciones más populares, diseñadas para cada ocasión y emoción.',
+        products: [
+            { name: 'Ramo de Rosas Rojas', desc: '12 rosas rojas frescas con eucalipto y envoltura de kraft.', price: '$899', tag: 'Más Vendido', emoji: '🌹', color: '#fce4ec' },
+            { name: 'Bouquet Primaveral', desc: 'Mezcla vibrante de tulipanes, gerberas y ranúnculos de temporada.', price: '$1,250', tag: 'Temporada', emoji: '💐', color: '#e8f5e9' },
+            { name: 'Caja de Orquídeas', desc: 'Elegante orquídea phalaenopsis en caja de terciopelo negro.', price: '$1,800', tag: 'Premium', emoji: '🪻', color: '#f3e5f5' },
+            { name: 'Arreglo Zen', desc: 'Arreglo minimalista con flores blancas, bambú y piedras pulidas.', price: '$950', tag: 'Minimalista', emoji: '🎋', color: '#e0f2f1' },
+            { name: 'Girasoles de Sol', desc: 'Ramo alegre de girasoles con acceserias naturales.', price: '$750', tag: 'Alegría', emoji: '🌻', color: '#fff8e1' },
+            { name: 'Cesta Gourmet Floral', desc: 'Cesta con flores mixtas, chocolate artesanal y vino espumoso.', price: '$2,200', tag: 'Regalo', emoji: '🧺', color: '#fff3e0' }
+        ],
+        aboutTag: 'Sobre Nosotros',
+        aboutTitle: 'Pasión por las flores desde 2008',
+        aboutP1: 'Somos una florería familiar con más de 15 años de trayectoria creando arreglos que enamoran. Nuestro equipo de expertos floristas selecciona cada flor cuidadosamente para garantizar frescura y belleza incomparables.',
+        aboutP2: 'Creemos que las flores son el lenguaje universal del amor, la alegría y la gratitud. Por eso, nos esforzamos en transformar cada bouquet en una obra de arte.',
+        aboutEmoji: '🌷',
+        aboutImage: null,
+        servicesTag: 'Servicios',
+        servicesTitle: 'Lo que ofrecemos',
+        servicesDesc: 'Más que flores, creamos experiencias inolvidables para cada ocasión especial.',
+        services: [
+            { icon: '💒', title: 'Bodas & Eventos', desc: 'Decoración floral completa para bodas, quinceañeras y eventos corporativos.' },
+            { icon: '🚚', title: 'Entrega a Domicilio', desc: 'Envío el mismo día en la ciudad. Tus flores frescas en horas.' },
+            { icon: '📦', title: 'Suscripción Floral', desc: 'Recibe flores frescas cada semana o mes en la comodidad de tu hogar.' },
+            { icon: '🎨', title: 'Diseño Personalizado', desc: 'Creamos arreglos únicos según tu visión, colores y preferencias.' }
+        ],
+        testimonialsTag: 'Testimonios',
+        testimonialsTitle: 'Lo que dicen nuestros clientes',
+        testimonialsDesc: 'Miles de clientes satisfechos confían en nosotros para sus momentos más especiales.',
+        testimonials: [
+            { text: 'El ramo de mi boda fue absolutamente espectacular. Todos los invitados preguntaron por la florería. ¡Gracias por hacer mi día aún más mágico!', name: 'María García', role: 'Novia', stars: '★★★★★', avatar: 'M' },
+            { text: 'Llevo 6 meses con la suscripción y cada entrega es una sorpresa más hermosa que la anterior. Las flores duran muchísimo y el diseño es increíble.', name: 'Carlos López', role: 'Cliente recurrente', stars: '★★★★★', avatar: 'C' },
+            { text: 'Contraté su servicio para el evento corporativo de mi empresa y el resultado superó todas las expectativas. Profesionales de principio a fin.', name: 'Ana Martínez', role: 'Directora de Eventos', stars: '★★★★★', avatar: 'A' }
+        ],
+        contactTag: 'Contacto',
+        contactTitle: 'Estamos para servirte',
+        contactDesc: '¿Tienes una idea en mente? ¡Hablemos y la hacemos realidad!',
+        contactAddress: 'Calle de las Flores 123, Centro Histórico, Ciudad de México',
+        contactPhone: '+52 (55) 1234-5678',
+        contactEmail: 'hola@floresyarte.com',
+        contactHours: 'Lun - Sáb: 8:00 AM - 8:00 PM | Dom: 9:00 AM - 3:00 PM',
+        whatsappNumber: '5215512345678',
+        footerBrand: 'Flores & Arte',
+        footerDesc: 'Transformamos la naturaleza en arte. Cada arreglo es una obra única creada con pasión y dedicación para making tus momentos más especiales aún más memorables.',
+        footerCopy: '© 2026 Flores & Arte. Todos los derechos reservados. Hecho con 💚',
+        promotions: [],
+        gallery: []
+    };
+
+    // ── Load Data (server first, localStorage fallback) ──
+    let data = { ...DEFAULT_DATA };
+    async function loadData() {
+        try {
+            const res = await fetch('/api/data');
+            if (res.ok) {
+                const serverData = await res.json();
+                data = { ...DEFAULT_DATA, ...serverData };
+                return;
+            }
+        } catch {}
+        try {
+            const saved = localStorage.getItem('floresArteData');
+            if (saved) data = { ...DEFAULT_DATA, ...JSON.parse(saved) };
+        } catch {}
+    }
+
+    // ── Render Editable Text ──
+    function renderEditables() {
+        document.querySelectorAll('.editable').forEach(el => {
+            const key = el.dataset.key;
+            const value = data[key.replace(/-([a-z])/g, (_, c) => c.toUpperCase())];
+            if (value) el.innerHTML = value;
+        });
+    }
+
+    // ── Render Products ──
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = (data.products || []).map(p => `
+            <div class="product-card">
+                <div class="product-image" style="background: ${p.color || '#f5f5f5'}">
+                    ${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius) 0 0 0;">` : p.emoji}
+                </div>
+                <div class="product-info">
+                    <span class="product-tag">${p.tag}</span>
+                    <h3>${p.name}</h3>
+                    <p>${p.desc}</p>
+                    <span class="product-price">${p.price}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ── Render Services ──
+    function renderServices() {
+        const grid = document.getElementById('servicesGrid');
+        grid.innerHTML = (data.services || []).map(s => `
+            <div class="service-card">
+                <div class="service-icon">${s.icon}</div>
+                <h3>${s.title}</h3>
+                <p>${s.desc}</p>
+            </div>
+        `).join('');
+    }
+
+    // ── Render Testimonials ──
+    function renderTestimonials() {
+        const grid = document.getElementById('testimonialsGrid');
+        grid.innerHTML = (data.testimonials || []).map(t => `
+            <div class="testimonial-card">
+                <div class="testimonial-stars">${t.stars}</div>
+                <blockquote>"${t.text}"</blockquote>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">${t.avatar}</div>
+                    <div>
+                        <div class="testimonial-name">${t.name}</div>
+                        <div class="testimonial-role">${t.role}</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ── Hero Emoji ──
+    function renderHeroEmoji() {
+        const heroImg = document.getElementById('heroImage');
+        if (data.heroEmoji) heroImg.textContent = data.heroEmoji;
+    }
+
+    // ── Logo Image ──
+    function renderLogoImage() {
+        const logoIcon = document.getElementById('navLogoIcon');
+        if (data.logoImage && logoIcon) {
+            logoIcon.innerHTML = `<img src="${data.logoImage}" alt="Logo" style="width:32px;height:32px;object-fit:contain;border-radius:6px;">`;
+        }
+    }
+
+    function renderAboutImage() {
+        const aboutEl = document.getElementById('aboutImage');
+        if (!aboutEl) return;
+        if (data.aboutImage) {
+            aboutEl.innerHTML = `<img src="${data.aboutImage}" alt="Sobre Nosotros" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius);">`;
+        } else {
+            aboutEl.textContent = data.aboutEmoji || '🌷';
+        }
+    }
+
+    // ══════════════════════════════════════════════
+    //  GALLERY CAROUSEL
+    // ══════════════════════════════════════════════
+
+    let carouselIndex = 0;
+    let carouselAutoplay = true;
+    let carouselInterval = null;
+    let carouselItemsPerView = 3;
+    let touchStartX = 0;
+    let touchDeltaX = 0;
+
+    const galleryData = [
+        { emoji: '🌹', title: 'Rosas Clásicas', color: '#fce4ec' },
+        { emoji: '💐', title: 'Bouquet de Bodas', color: '#f3e5f5' },
+        { emoji: '🌸', title: 'Flores de Cerezo', color: '#fce4ec' },
+        { emoji: '🌻', title: 'Girasoles de Verano', color: '#fff8e1' },
+        { emoji: '🌺', title: 'Arreglo Tropical', color: '#e0f2f1' },
+        { emoji: '🪷', title: 'Loto Zen', color: '#e8f5e9' },
+        { emoji: '🌷', title: 'Tulipanes Holandeses', color: '#fce4ec' },
+        { emoji: '🪻', title: 'Orquídeas Exóticas', color: '#f3e5f5' },
+        { emoji: '🌼', title: 'Margaritas Frescas', color: '#fff8e1' }
+    ];
+
+    function getItemsPerView() {
+        const w = window.innerWidth;
+        if (w < 500) return 1;
+        if (w < 768) return 2;
+        if (w < 1024) return 3;
+        return 4;
+    }
+
+    // ══════════════════════════════════════════════
+    //  LIGHTBOX
+    // ══════════════════════════════════════════════
+
+    let lightboxIndex = 0;
+    function openLightbox(index) {
+        lightboxIndex = index;
+        const items = window._galleryItems || galleryData;
+        const item = items[index];
+        const content = document.getElementById('lightboxContent');
+        if (item.image) {
+            content.innerHTML = `<img src="${item.image}" alt="${item.title}">`;
+        } else {
+            content.innerHTML = `<div class="lb-text">${item.emoji}</div>`;
+        }
+        document.getElementById('lightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function navigateLightbox(dir) {
+        const items = window._galleryItems || galleryData;
+        lightboxIndex = (lightboxIndex + dir + items.length) % items.length;
+        openLightbox(lightboxIndex);
+    }
+
+    function renderGallery() {
+        const track = document.getElementById('galleryTrack');
+        const dotsEl = document.getElementById('galleryDots');
+        const gallery = (data.gallery && data.gallery.length > 0) ? data.gallery : galleryData;
+        window._galleryItems = gallery;
+        carouselItemsPerView = getItemsPerView();
+
+        track.innerHTML = gallery.map((item, i) => `
+            <div class="gallery-item" style="background: ${item.color || '#e8f5e9'}" onclick="openLightbox(${i})" data-index="${i}">
+                ${item.image ? `<img src="${item.image}" alt="${item.title}">` : item.emoji}
+                <div class="gallery-overlay">
+                    <strong>${item.title}</strong>
+                    <div class="gallery-sub">${item.image ? '📷 Foto real' : '🎨 Emoji'}</div>
+                </div>
+            </div>
+        `).join('');
+
+        const totalDots = Math.max(1, gallery.length - carouselItemsPerView + 1);
+        dotsEl.innerHTML = '';
+        for (let i = 0; i < totalDots; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'gallery-dot' + (i === carouselIndex ? ' active' : '');
+            dot.onclick = () => goToGallerySlide(i);
+            dotsEl.appendChild(dot);
+        }
+
+        updateCarouselPosition();
+        updateGalleryCounter();
+        startGalleryAutoplay();
+    }
+
+    function updateCarouselPosition() {
+        const track = document.getElementById('galleryTrack');
+        const items = track.querySelectorAll('.gallery-item');
+        if (items.length === 0) return;
+        carouselItemsPerView = getItemsPerView();
+        const maxIndex = Math.max(0, items.length - carouselItemsPerView);
+        carouselIndex = Math.min(carouselIndex, maxIndex);
+        const itemWidth = items[0].offsetWidth + 16;
+        track.style.transform = `translateX(-${carouselIndex * itemWidth}px)`;
+        items.forEach((item, i) => item.classList.toggle('active-slide', i === carouselIndex));
+        const dots = document.querySelectorAll('.gallery-dot');
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === carouselIndex));
+        const progress = (carouselIndex / Math.max(1, maxIndex)) * 100;
+        document.getElementById('galleryProgress').style.width = progress + '%';
+        updateGalleryCounter();
+    }
+
+    function updateGalleryCounter() {
+        const items = window._galleryItems || [];
+        document.getElementById('galleryCounter').textContent = `${carouselIndex + 1} / ${items.length}`;
+    }
+
+    function slideGallery(dir) {
+        const items = document.querySelectorAll('#galleryTrack .gallery-item');
+        const maxIndex = Math.max(0, items.length - getItemsPerView());
+        carouselIndex = Math.max(0, Math.min(maxIndex, carouselIndex + dir));
+        updateCarouselPosition();
+        resetGalleryAutoplay();
+    }
+
+    function goToGallerySlide(index) {
+        const items = document.querySelectorAll('#galleryTrack .gallery-item');
+        const maxIndex = Math.max(0, items.length - getItemsPerView());
+        carouselIndex = Math.max(0, Math.min(maxIndex, index));
+        updateCarouselPosition();
+        resetGalleryAutoplay();
+    }
+
+    function startGalleryAutoplay() {
+        stopGalleryAutoplay();
+        if (carouselAutoplay) {
+            carouselInterval = setInterval(() => {
+                const items = document.querySelectorAll('#galleryTrack .gallery-item');
+                const maxIndex = Math.max(0, items.length - getItemsPerView());
+                carouselIndex = carouselIndex >= maxIndex ? 0 : carouselIndex + 1;
+                updateCarouselPosition();
+            }, 4000);
+        }
+    }
+
+    function stopGalleryAutoplay() {
+        if (carouselInterval) { clearInterval(carouselInterval); carouselInterval = null; }
+    }
+
+    function resetGalleryAutoplay() {
+        stopGalleryAutoplay();
+        startGalleryAutoplay();
+    }
+
+    function toggleGalleryAutoplay() {
+        carouselAutoplay = !carouselAutoplay;
+        const btn = document.getElementById('galleryPause');
+        if (carouselAutoplay) { btn.textContent = '⏸ Pausa'; startGalleryAutoplay(); }
+        else { btn.textContent = '▶️ Play'; stopGalleryAutoplay(); }
+    }
+
+    function renderPromos() {
+        const promos = data.promotions || [];
+        const activePromo = promos.find(p => p.active);
+        if (activePromo) {
+            const section = document.getElementById('promoSection');
+            section.classList.add('active');
+            document.getElementById('promoBadge').textContent = activePromo.badge || '🔥 Oferta';
+            document.getElementById('promoTitle').textContent = activePromo.title || '';
+            document.getElementById('promoDesc').textContent = activePromo.description || '';
+        }
+    }
+
+    function setupScrollReveal() {
+        const revealElements = [
+            ...document.querySelectorAll('.section-header, .product-card, .service-card, .testimonial-card, .about-grid, .contact-grid, .gallery-carousel-wrapper, .order-section .section-container')
+        ];
+        revealElements.forEach((el, i) => {
+            el.classList.add('reveal');
+            if (i % 4 === 1) el.classList.add('reveal-delay-1');
+            if (i % 4 === 2) el.classList.add('reveal-delay-2');
+            if (i % 4 === 3) el.classList.add('reveal-delay-3');
+        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => observer.observe(el));
+    }
+
+    // ── Init ──
+    function applyStyles() {
+        if (data.style) {
+            const s = data.style;
+            const root = document.documentElement;
+            if (s.primary) {
+                root.style.setProperty('--primary', s.primary);
+                root.style.setProperty('--primary-dark', s.primary.replace(/[0-9a-f]{2}$/i, m => Math.max(0, parseInt(m, 16) - 30).toString(16).padStart(2, '0')));
+                root.style.setProperty('--primary-light', s.primary.replace(/[0-9a-f]{2}$/i, m => Math.min(255, parseInt(m, 16) + 30).toString(16).padStart(2, '0')));
+            }
+            if (s.accent) {
+                root.style.setProperty('--accent', s.accent);
+                root.style.setProperty('--accent-light', s.accent + '33');
+            }
+            if (s.bg) root.style.setProperty('--bg', s.bg);
+            if (s.text) root.style.setProperty('--text', s.text);
+        }
+    }
+
+    function renderAll() {
+        renderEditables();
+        renderProducts();
+        renderServices();
+        renderTestimonials();
+        renderHeroEmoji();
+        renderLogoImage();
+        renderAboutImage();
+        applyStyles();
+        renderGallery();
+        renderPromos();
+        setupScrollReveal();
+    }
+
+    // First render with defaults (fast, no flash)
+    renderAll();
+
+    // Then reload from server and re-render
+    loadData().then(() => { renderAll(); setupWhatsAppFloat(); });
+
+    // ── Navbar scroll ──
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 500);
+    });
+
+    // ── Mobile menu ──
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+
+    // ── Scroll top ──
+    document.getElementById('scrollTop').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ── Contact form ──
+    document.getElementById('contactForm').addEventListener('submit', e => {
+        e.preventDefault();
+        showModalAlert('🌸', '¡Mensaje enviado!', 'Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
+        e.target.reset();
+    });
+
+    // ── Smooth scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const href = a.getAttribute('href');
+            if (href === '#' || href.length < 2) return;
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    // ══════════════════════════════════════════════
+    //  ANALYTICS TRACKING
+    // ══════════════════════════════════════════════
+
+    async function incrementAnalytics(key) {
+        try {
+            const res = await fetch('/api/analytics');
+            const a = res.ok ? await res.json() : {};
+            a[key] = (a[key] || 0) + 1;
+            a.lastUpdate = new Date().toLocaleString('es-MX');
+            await fetch('/api/analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(a)
+            });
+        } catch {}
+    }
+    incrementAnalytics('visits');
+
+    // ══════════════════════════════════════════════
+    //  ORDER FORM (INVOICE STYLE)
+    // ══════════════════════════════════════════════
+
+    let orderItems = [];
+    let orderCounter = parseInt(localStorage.getItem('floresArteOrderCounter') || '0') + 1;
+    localStorage.setItem('floresArteOrderCounter', orderCounter);
+
+    function openOrderModal() {
+        // Set order meta
+        const orderNum = String(orderCounter).padStart(4, '0');
+        document.getElementById('orderNumber').textContent = '#' + orderNum;
+        const now = new Date();
+        document.getElementById('orderDate').textContent = now.toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
+
+        // Set min date to today
+        const today = now.toISOString().split('T')[0];
+        document.getElementById('of-date').value = today;
+        document.getElementById('of-date').min = today;
+
+        // Load brand name from data (already loaded)
+        document.getElementById('orderBrandName').textContent = data.navLogo || 'Flores & Arte';
+
+        // Populate product selector
+        const select = document.getElementById('of-product-select');
+        select.innerHTML = '<option value="">Seleccionar producto...</option>' +
+            (data.products || []).map((p, i) => `<option value="${i}">${p.emoji || '🌸'} ${p.name} — ${p.price}</option>`).join('');
+
+        // Reset items
+        orderItems = [];
+        renderOrderItems();
+
+        // Show modal
+        document.getElementById('orderModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+
+        // Init map
+        initMapPlaceholder();
+    }
+
+    function closeOrderModal() {
+        document.getElementById('orderModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // Close on overlay click
+    document.getElementById('orderModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('orderModal')) closeOrderModal();
+    });
+
+    function addOrderItem() {
+        const select = document.getElementById('of-product-select');
+        const idx = parseInt(select.value);
+        if (isNaN(idx)) return;
+
+        const product = data.products[idx];
+        // Check if already in order
+        const existing = orderItems.find(item => item.productIndex === idx);
+        if (existing) {
+            existing.qty++;
+        } else {
+            orderItems.push({
+                productIndex: idx,
+                name: product.name,
+                desc: product.desc,
+                price: parsePrice(product.price),
+                priceStr: product.price,
+                emoji: product.emoji || '🌸',
+                qty: 1
+            });
+        }
+        select.value = '';
+        renderOrderItems();
+    }
+
+    function parsePrice(str) {
+        return parseFloat(str.replace(/[^0-9.]/g, '')) || 0;
+    }
+
+    function formatPrice(n) {
+        return '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function renderOrderItems() {
+        const tbody = document.getElementById('orderItemsBody');
+        const emptyMsg = document.getElementById('emptyOrderMsg');
+        const totals = document.getElementById('orderTotals');
+
+        if (orderItems.length === 0) {
+            tbody.innerHTML = '';
+            emptyMsg.style.display = 'block';
+            totals.style.display = 'none';
+            return;
+        }
+
+        emptyMsg.style.display = 'none';
+        totals.style.display = 'block';
+
+        tbody.innerHTML = orderItems.map((item, i) => {
+            const sub = item.price * item.qty;
+            return `
+                <tr>
+                    <td><span class="order-item-emoji">${item.emoji}</span></td>
+                    <td>
+                        <div class="order-item-name">${item.name}</div>
+                        <div class="order-item-desc">${item.desc ? item.desc.substring(0, 40) : ''}</div>
+                    </td>
+                    <td class="order-item-price">${formatPrice(item.price)}</td>
+                    <td>
+                        <div class="qty-control">
+                            <button class="qty-btn" onclick="changeQty(${i}, -1)">−</button>
+                            <span class="qty-value">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td class="order-item-price">${formatPrice(sub)}</td>
+                    <td><button class="order-item-remove" onclick="removeOrderItem(${i})">✕</button></td>
+                </tr>
+            `;
+        }).join('');
+
+        // Update totals
+        const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        document.getElementById('orderSubtotal').textContent = formatPrice(subtotal);
+        document.getElementById('orderGrandTotal').textContent = formatPrice(subtotal);
+    }
+
+    function changeQty(index, delta) {
+        orderItems[index].qty = Math.max(1, orderItems[index].qty + delta);
+        renderOrderItems();
+    }
+
+    function removeOrderItem(index) {
+        orderItems.splice(index, 1);
+        renderOrderItems();
+    }
+
+    // ══════════════════════════════════════════════
+    //  GOOGLE MAPS / GEOCODING
+    // ══════════════════════════════════════════════
+
+    function initMapPlaceholder() {
+        const preview = document.getElementById('mapPreview');
+        preview.innerHTML = `
+            <div class="map-placeholder">
+                <div class="map-icon">🗺️</div>
+                <p>Escribe una dirección para ver la ubicación en el mapa</p>
+            </div>
+        `;
+    }
+
+    let mapSearchTimeout;
+    document.getElementById('of-address').addEventListener('input', function() {
+        clearTimeout(mapSearchTimeout);
+        const address = this.value;
+        if (address.length < 5) {
+            initMapPlaceholder();
+            return;
+        }
+        mapSearchTimeout = setTimeout(() => {
+            showAddressOnMap(address);
+        }, 800);
+    });
+
+    function showAddressOnMap(address) {
+        const preview = document.getElementById('mapPreview');
+        const encoded = encodeURIComponent(address);
+        // Use OpenStreetMap embed (no API key needed)
+        preview.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encoded}&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy"></iframe>`;
+    }
+
+    // ══════════════════════════════════════════════
+    //  WHATSAPP INTEGRATION
+    // ══════════════════════════════════════════════
+
+    // ══════════════════════════════════════════════
+    //  MODAL ALERT / CONFIRM
+    // ══════════════════════════════════════════════
+
+    let _modalAlertResolve = null;
+    function showModalAlert(icon, title, msg, opts = {}) {
+        return new Promise(resolve => {
+            _modalAlertResolve = resolve;
+            document.getElementById('modalAlertIcon').textContent = icon;
+            document.getElementById('modalAlertTitle').textContent = title;
+            document.getElementById('modalAlertMsg').textContent = msg;
+            const cancelBtn = document.getElementById('modalAlertCancel');
+            const actionsEl = document.getElementById('modalAlertActions');
+            const okBtn = actionsEl.querySelector('.primary');
+            if (opts.confirm) {
+                cancelBtn.style.display = '';
+                okBtn.textContent = opts.confirmText || 'Aceptar';
+                okBtn.className = 'modal-alert-btn primary' + (opts.danger ? ' danger' : '');
+                cancelBtn.textContent = opts.cancelText || 'Cancelar';
+            } else {
+                cancelBtn.style.display = 'none';
+                okBtn.textContent = 'Aceptar';
+                okBtn.className = 'modal-alert-btn primary';
+            }
+            document.getElementById('modalAlert').classList.add('open');
+        });
+    }
+    function closeModalAlert(result) {
+        document.getElementById('modalAlert').classList.remove('open');
+        if (_modalAlertResolve) { _modalAlertResolve(result); _modalAlertResolve = null; }
+    }
+    // Close on overlay click
+    document.getElementById('modalAlert').addEventListener('click', e => {
+        if (e.target === document.getElementById('modalAlert')) closeModalAlert(false);
+    });
+
+    // Modern validation helpers
+    async function validateOrder() {
+        const name = document.getElementById('of-name').value.trim();
+        const phone = document.getElementById('of-phone').value.trim();
+        const address = document.getElementById('of-address').value.trim();
+        const deliveryDate = document.getElementById('of-date').value;
+
+        if (!name) { await showModalAlert('⚠️', 'Campo requerido', 'Por favor ingresa tu nombre.'); document.getElementById('of-name').focus(); return false; }
+        if (!phone) { await showModalAlert('⚠️', 'Campo requerido', 'Por favor ingresa tu teléfono.'); document.getElementById('of-phone').focus(); return false; }
+        if (!address) { await showModalAlert('⚠️', 'Campo requerido', 'Por favor ingresa la dirección de entrega.'); document.getElementById('of-address').focus(); return false; }
+        if (orderItems.length === 0) { await showModalAlert('🛒', 'Pedido vacío', 'Agrega al menos un producto a tu pedido.'); return false; }
+        if (!deliveryDate) { await showModalAlert('📅', 'Fecha requerida', 'Selecciona una fecha de entrega.'); document.getElementById('of-date').focus(); return false; }
+        return true;
+    }
+
+    // ══════════════════════════════════════════════
+    //  SEND ORDER VIA WHATSAPP
+    // ══════════════════════════════════════════════
+
+    async function sendWhatsAppOrder() {
+        if (!await validateOrder()) return;
+
+        const name = document.getElementById('of-name').value.trim();
+        const phone = document.getElementById('of-phone').value.trim();
+        const email = document.getElementById('of-email').value.trim();
+        const address = document.getElementById('of-address').value.trim();
+        const payment = document.getElementById('of-payment').value;
+        const deliveryDate = document.getElementById('of-date').value;
+        const deliveryTime = document.getElementById('of-time').value;
+        const notes = document.getElementById('of-notes').value.trim();
+
+        // Get WhatsApp number from data (loaded from server)
+        let whatsappNumber = (data.whatsappNumber || '5215512345678').replace(/[^0-9]/g, '');
+
+        // Build order number
+        const orderNum = String(orderCounter).padStart(4, '0');
+
+        // Format date nicely
+        const dateFormatted = deliveryDate ? new Date(deliveryDate + 'T12:00:00').toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : 'No especificada';
+
+        // Build WhatsApp message
+        let msg = `🌸 *PEDIDO — Flores & Arte*\n`;
+        msg += `━━━━━━━━━━━━━━━━━━\n`;
+        msg += `📋 *Pedido N° #${orderNum}*\n`;
+        msg += `📅 ${new Date().toLocaleDateString('es-MX')}\n\n`;
+
+        msg += `👤 *DATOS DEL CLIENTE*\n`;
+        msg += `Nombre: ${name}\n`;
+        msg += `Tel: ${phone}\n`;
+        if (email) msg += `Email: ${email}\n`;
+        msg += `\n`;
+
+        msg += `🛒 *PRODUCTOS*\n`;
+        orderItems.forEach((item, i) => {
+            msg += `${item.emoji} ${item.name}\n`;
+            msg += `   ${item.qty} x ${formatPrice(item.price)} = ${formatPrice(item.price * item.qty)}\n`;
+        });
+        msg += `\n`;
+
+        const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        msg += `💰 *RESUMEN*\n`;
+        msg += `Subtotal: ${formatPrice(subtotal)}\n`;
+        msg += `*TOTAL: ${formatPrice(subtotal)}*\n\n`;
+
+        msg += `🚚 *ENTREGA*\n`;
+        msg += `📅 ${dateFormatted}\n`;
+        msg += `🕐 ${deliveryTime}\n`;
+        msg += `📍 ${address}\n\n`;
+
+        msg += `💳 Pago: ${payment}\n`;
+        if (notes) msg += `\n📝 *Notas:* ${notes}\n`;
+
+        msg += `\n━━━━━━━━━━━━━━━━━━\n`;
+        msg += `_Enviado desde el sitio web de Flores & Arte 🌿_`;
+
+        // Save order to history (server)
+        try {
+            const res = await fetch('/api/orders');
+            const existingOrders = res.ok ? await res.json() : [];
+            existingOrders.unshift({
+                number: orderNum,
+                date: new Date().toLocaleDateString('es-MX'),
+                client: name,
+                phone: phone,
+                items: orderItems.map(i => `${i.emoji} ${i.name} x${i.qty}`).join(', '),
+                total: formatPrice(subtotal),
+                status: 'pending'
+            });
+            await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(existingOrders)
+            });
+        } catch {}
+
+        // Track analytics
+        incrementAnalytics('ordersSent');
+
+        // Open WhatsApp
+        const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank');
+    }
+
+    async function saveLocalOrder() {
+        if (!await validateOrder()) return;
+
+        const name = document.getElementById('of-name').value.trim();
+        const phone = document.getElementById('of-phone').value.trim();
+        const email = document.getElementById('of-email').value.trim();
+        const address = document.getElementById('of-address').value.trim();
+        const payment = document.getElementById('of-payment').value;
+        const deliveryDate = document.getElementById('of-date').value;
+        const deliveryTime = document.getElementById('of-time').value;
+        const notes = document.getElementById('of-notes').value.trim();
+        const orderNum = String(orderCounter).padStart(4, '0');
+        const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+        // Build order object
+        const orderData = {
+            number: orderNum,
+            date: new Date().toLocaleDateString('es-MX'),
+            client: name,
+            phone: phone,
+            email: email,
+            address: address,
+            items: orderItems.map(i => `${i.emoji} ${i.name} x${i.qty}`).join(', '),
+            total: formatPrice(subtotal),
+            payment: payment,
+            deliveryDate: deliveryDate,
+            deliveryTime: deliveryTime,
+            notes: notes,
+            status: 'pending'
+        };
+
+        // Save to server
+        try {
+            const res = await fetch('/api/orders');
+            const existingOrders = res.ok ? await res.json() : [];
+            existingOrders.unshift(orderData);
+            await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(existingOrders)
+            });
+        } catch {}
+
+        // Show success modal
+        await showModalAlert('💾', 'Pedido Guardado', `Tu pedido #${orderNum} ha sido guardado correctamente. Puedes enviarlo por WhatsApp cuando quieras.`);
+        closeOrderModal();
+    }
+
+    function printOrder() {
+        window.print();
+    }
+
+    // ── WhatsApp floating button ──
+    function setupWhatsAppFloat() {
+        const whatsappNumber = (data.whatsappNumber || '5215512345678').replace(/[^0-9]/g, '');
+        document.getElementById('whatsappFloat').href = `https://wa.me/${whatsappNumber}`;
+    }
+
+    // Track WhatsApp float clicks
+    document.getElementById('whatsappFloat').addEventListener('click', () => {
+        incrementAnalytics('whatsappClicks');
+    });
+
+    // ══════════════════════════════════════════════
+    //  DARK MODE
+    // ══════════════════════════════════════════════
+
+    const darkToggle = document.getElementById('darkToggle');
+    const savedDark = localStorage.getItem('floresArteDarkMode');
+    if (savedDark === 'true') {
+        document.body.classList.add('dark-mode');
+        darkToggle.textContent = '☀️';
+    }
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        darkToggle.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('floresArteDarkMode', isDark);
+    });
+
+    // ══════════════════════════════════════════════
+    //  SEASONAL THEMES
+    // ══════════════════════════════════════════════
+
+    (function applySeasonalTheme() {
+        const month = new Date().getMonth(); // 0-11
+        document.body.classList.remove('season-christmas', 'season-valentine', 'season-halloween', 'season-mothers', 'season-summer');
+        if (month === 11 || month === 0) document.body.classList.add('season-christmas');       // Dec-Jan
+        else if (month === 1) document.body.classList.add('season-valentine');                     // Feb
+        else if (month === 4) document.body.classList.add('season-mothers');                       // May (Dia de la Madre)
+        else if (month === 9) document.body.classList.add('season-halloween');                     // Oct
+        else if (month === 5 || month === 6) document.body.classList.add('season-summer');          // Jun-Jul
+    })();
+
+    // ══════════════════════════════════════════════
+    //  FLOATING ORDER CTA + EVENT LISTENERS
+    // ══════════════════════════════════════════════
+
+    const floatingBtn = document.getElementById('floatingOrder');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 600) floatingBtn.classList.remove('hidden');
+        else floatingBtn.classList.add('hidden');
+    });
+
+    // Gallery event listeners
+    const trackEl = document.getElementById('galleryTrack');
+    if (trackEl) {
+        trackEl.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; touchDeltaX = 0; stopGalleryAutoplay(); }, { passive: true });
+        trackEl.addEventListener('touchmove', e => { touchDeltaX = e.touches[0].clientX - touchStartX; }, { passive: true });
+        trackEl.addEventListener('touchend', () => { if (Math.abs(touchDeltaX) > 50) slideGallery(touchDeltaX > 0 ? -1 : 1); if (carouselAutoplay) startGalleryAutoplay(); });
+    }
+
+    document.addEventListener('keydown', e => {
+        if (document.getElementById('lightbox').classList.contains('open')) {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        } else {
+            if (e.key === 'ArrowLeft') slideGallery(-1);
+            if (e.key === 'ArrowRight') slideGallery(1);
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        carouselItemsPerView = getItemsPerView();
+        updateCarouselPosition();
+        const items = document.querySelectorAll('#galleryTrack .gallery-item');
+        const totalDots = Math.max(1, items.length - carouselItemsPerView + 1);
+        const dotsEl = document.getElementById('galleryDots');
+        dotsEl.innerHTML = '';
+        for (let i = 0; i < totalDots; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'gallery-dot' + (i === carouselIndex ? ' active' : '');
+            dot.onclick = () => goToGallerySlide(i);
+            dotsEl.appendChild(dot);
+        }
+    });
+
+    // Contact Map
+    (function renderContactMap() {
+        const mapEl = document.getElementById('contactMap');
+        if (!mapEl) return;
+        const addr = data.contactAddress || 'Ciudad de Mexico';
+        const encoded = encodeURIComponent(addr);
+        mapEl.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encoded}&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy"></iframe>`;
+    })();
+
+    // Product cards → order modal
+    document.getElementById('productsGrid').addEventListener('click', e => {
+        if (e.target.closest('.product-card')) openOrderModal();
+    });
+
+    </script>
+</body>
+</html>

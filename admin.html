@@ -1,0 +1,2721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Flores & Arte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a7c59;
+            --primary-light: #6ba37a;
+            --primary-dark: #345a40;
+            --accent: #d4a574;
+            --accent-light: #e8c9a0;
+            --bg: #f4f6f9;
+            --bg-card: #ffffff;
+            --text: #2c2c2c;
+            --text-light: #6b6b6b;
+            --text-white: #ffffff;
+            --border: #e2e8f0;
+            --danger: #e74c3c;
+            --danger-light: #fde8e8;
+            --success: #27ae60;
+            --success-light: #e8f8f0;
+            --warning: #f39c12;
+            --shadow: 0 2px 10px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --transition: 0.25s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+        /* ── LOGIN SCREEN ── */
+        .login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 30%, #fff8e1 70%, #fce4ec 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        .login-logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .login-card h2 {
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.3rem;
+        }
+        .login-card .login-subtitle {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .login-field {
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+        .login-field label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+        .login-field input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--bg);
+        }
+        .login-field input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74,124,89,0.12);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+        }
+        .login-btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74,124,89,0.3); }
+        .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .login-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+            display: none;
+            padding: 0.6rem;
+            background: var(--danger-light);
+            border-radius: 8px;
+        }
+        .login-error.show { display: block; }
+        .login-footer {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .login-pulse {
+            animation: loginPulse 2s ease-in-out infinite;
+        }
+        @keyframes loginPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ── LAYOUT ── */
+        .layout { display: flex; min-height: 100vh; }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 260px;
+            background: var(--primary-dark);
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1rem;
+        }
+        .sidebar-header h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .sidebar-header p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+        .sidebar-nav { padding: 0.5rem 0; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.85rem 1.5rem;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--accent);
+        }
+        .sidebar-nav a .icon { font-size: 1.1rem; width: 24px; text-align: center; }
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+        }
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+        .sidebar-footer a:hover { color: white; }
+
+        /* ── MAIN CONTENT ── */
+        .main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* ── TOP BAR ── */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .topbar h1 { font-size: 1.8rem; }
+        .topbar-actions { display: flex; gap: 0.8rem; }
+        .btn {
+            padding: 0.65rem 1.3rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #219a52; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-warning { background: var(--warning); color: white; }
+        .btn-warning:hover { background: #e08e0b; }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .card-header h3 { font-size: 1.2rem; }
+
+        /* ── STAT CARDS ── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .stat-icon.green { background: #e8f5e9; }
+        .stat-icon.blue { background: #e3f2fd; }
+        .stat-icon.orange { background: #fff3e0; }
+        .stat-icon.pink { background: #fce4ec; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif; }
+        .stat-label { font-size: 0.85rem; color: var(--text-light); }
+
+        /* ── FORMS ── */
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        .form-group .hint {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--bg);
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+        }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-actions { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+
+        /* ── TABLE ── */
+        .table-container { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+        tr:hover { background: #f8f9fa; }
+        .item-emoji { font-size: 1.5rem; }
+
+        /* ── SECTIONS ── */
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-header h3 { font-size: 1.3rem; }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 0.3rem;
+        }
+        .modal-close:hover { color: var(--text); }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            font-weight: 700;
+            z-index: 2000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.error { background: var(--danger); }
+
+        /* ── MODAL CONFIRM ── */
+        .modal-alert-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .modal-alert-overlay.open { display: flex; }
+        .modal-alert-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            animation: confirmIn 0.3s ease;
+        }
+        @keyframes confirmIn {
+            from { opacity: 0; transform: scale(0.85) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-alert-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+        .modal-alert-card h3 { font-size: 1.3rem; color: var(--text); margin-bottom: 0.5rem; }
+        .modal-alert-card p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+        .modal-alert-actions { display: flex; gap: 0.8rem; justify-content: center; }
+        .modal-alert-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+        }
+        .modal-alert-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .modal-alert-btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+        .modal-alert-btn.primary:hover { background: var(--primary-dark); }
+        .modal-alert-btn.danger { background: var(--danger); color: white; border-color: var(--danger); }
+        .modal-alert-btn.danger:hover { background: #c0392b; }
+
+        /* ── COLOR PICKER ── */
+        .color-options { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .color-swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .color-swatch:hover, .color-swatch.selected { border-color: var(--primary-dark); transform: scale(1.1); }
+
+        /* ── RESPONSIVE ── */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 200;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; padding: 1rem; padding-top: 4rem; }
+            .mobile-menu-toggle { display: block; }
+            .form-row { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ── EMOJI PICKER ── */
+        .emoji-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+        .emoji-btn {
+            width: 42px;
+            height: 42px;
+            font-size: 1.4rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .emoji-btn:hover, .emoji-btn.selected { border-color: var(--primary); background: #e8f5e9; transform: scale(1.1); }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-light);
+        }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .empty-state p { margin-bottom: 1rem; }
+
+        /* ── IMAGE UPLOAD ── */
+        .image-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+        .image-upload-area:hover { border-color: var(--primary); background: #f0faf3; }
+        .image-upload-area .upload-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .image-upload-area .upload-text { color: var(--text-light); font-size: 0.9rem; }
+        .image-upload-area .upload-hint { color: var(--text-light); font-size: 0.8rem; margin-top: 0.3rem; }
+        .image-upload-area input[type="file"] { display: none; }
+        .image-upload-area.has-image { padding: 0; border-style: solid; border-color: var(--primary); }
+        .image-upload-area.has-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .image-upload-area .remove-image {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .product-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+        .product-thumb-emoji {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: contain;
+            border: 2px solid var(--border);
+            background: white;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- ═══ LOGIN SCREEN ═══ -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo login-pulse">🌿</div>
+            <h2>Flores & Arte</h2>
+            <p class="login-subtitle">Panel de Administración</p>
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="login-field">
+                    <label>👤 Usuario</label>
+                    <input type="text" id="loginUser" placeholder="Ingresa tu usuario" autocomplete="username" required>
+                </div>
+                <div class="login-field">
+                    <label>🔒 Contraseña</label>
+                    <input type="password" id="loginPass" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">Iniciar Sesión 🌸</button>
+                <div class="login-error" id="loginError">Usuario o contraseña incorrectos</div>
+            </form>
+            <div class="login-footer">
+                <p>Acceso restringido — Solo personal autorizado</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout" id="adminLayout" style="display:none;">
+        <!-- MOBILE MENU TOGGLE -->
+        <button class="mobile-menu-toggle" id="mobileToggle">☰</button>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>🌿 Panel Admin</h2>
+                <p>Flores & Arte</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active" data-panel="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#" data-panel="content">
+                    <span class="icon">📝</span> Contenido General
+                </a>
+                <a href="#" data-panel="products">
+                    <span class="icon">🌸</span> Productos
+                </a>
+                <a href="#" data-panel="services">
+                    <span class="icon">🎯</span> Servicios
+                </a>
+                <a href="#" data-panel="testimonials">
+                    <span class="icon">💬</span> Testimonios
+                </a>
+                <a href="#" data-panel="contact">
+                    <span class="icon">📞</span> Contacto
+                </a>
+                <a href="#" data-panel="style">
+                    <span class="icon">🎨</span> Estilo & Colores
+                </a>
+                <a href="#" data-panel="gallery">
+                    <span class="icon">📸</span> Galería
+                </a>
+                <a href="#" data-panel="promos">
+                    <span class="icon">🏷️</span> Promociones
+                </a>
+                <a href="#" data-panel="orders">
+                    <span class="icon">📋</span> Historial Pedidos
+                </a>
+                <a href="#" data-panel="analytics">
+                    <span class="icon">📊</span> Analytics
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" target="_blank">🌐 Ver Sitio Web</a>
+                <a href="#" id="resetBtn">🔄 Restaurar Valores por Defecto</a>
+                <a href="#" id="exportBtn">💾 Exportar Datos</a>
+                <a href="#" id="importBtn">📂 Importar Datos</a>
+                <a href="#" onclick="adminLogout(); return false;" style="color:#ff6b6b;margin-top:0.5rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:0.8rem;">🚪 Cerrar Sesión</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+
+            <!-- ═══ DASHBOARD ═══ -->
+            <div class="panel active" id="panel-dashboard">
+                <div class="topbar">
+                    <h1>📊 Dashboard</h1>
+                    <div class="topbar-actions">
+                        <a href="index.html" target="_blank" class="btn btn-primary">🌐 Ver Sitio</a>
+                    </div>
+                </div>
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Rendered by JS -->
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>⚡ Acciones Rápidas</h3>
+                    </div>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="navigateTo('products')">➕ Agregar Producto</button>
+                        <button class="btn btn-outline" onclick="navigateTo('services')">➕ Agregar Servicio</button>
+                        <button class="btn btn-outline" onclick="navigateTo('testimonials')">➕ Agregar Testimonio</button>
+                        <button class="btn btn-outline" onclick="navigateTo('content')">✏️ Editar Textos</button>
+                        <button class="btn btn-outline" onclick="navigateTo('style')">🎨 Cambiar Colores</button>
+                        <a href="index.html" target="_blank" class="btn btn-outline">👁️ Vista Previa</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>📋 Resumen del Sitio</h3>
+                    </div>
+                    <div id="siteSummary" style="color: var(--text-light); font-size: 0.95rem;"></div>
+                </div>
+            </div>
+
+            <!-- ═══ CONTENT ═══ -->
+            <div class="panel" id="panel-content">
+                <div class="topbar">
+                    <h1>📝 Contenido General</h1>
+                </div>
+
+                <!-- HERO -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🌸 Sección Hero (Portada)</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Título Principal</label>
+                        <input type="text" id="edit-hero-title" placeholder="Título principal">
+                        <div class="hint">Usa &lt;em&gt;texto&lt;/em&gt; para cursiva en partes del título</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="edit-hero-desc" placeholder="Descripción de la portada"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Emoji Principal</label>
+                        <div class="emoji-grid" id="heroEmojiPicker">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveHero()">💾 Guardar Cambios</button>
+                    </div>
+                </div>
+
+                <!-- LOGO -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🖼️ Logo de la Floristería</h3>
+                    </div>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Sube el logo de tu negocio. Se mostrará en la barra de navegación y en el pie de página.</p>
+                    <div class="image-upload-area" id="logoUploadArea">
+                        <input type="file" id="logoFileInput" accept="image/*">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-text">Haz clic para subir tu logo</div>
+                        <div class="upload-hint">PNG, JPG o SVG (máx. 2MB)</div>
+                    </div>
+                    <div class="form-actions" style="margin-top: 1rem;">
+                        <button class="btn btn-success" onclick="saveLogo()">💾 Guardar Logo</button>
+                        <button class="btn btn-outline" onclick="removeLogo()">🗑️ Quitar Logo</button>
+                    </div>
+                </div>
+
+                <!-- NAVBAR -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>📌 Nombre de la Marca</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del Negocio</label>
+                        <input type="text" id="edit-nav-logo" placeholder="Nombre del negocio">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveNav()">💾 Guardar</button>
+                    </div>
+                </div>
+
+                <!-- ABOUT -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🌷 Sección Nosotros</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Etiqueta (Tag)</label>
+                        <input type="text" id="edit-about-tag" placeholder="Sobre Nosotros">
+                    </div>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="edit-about-title" placeholder="Título de la sección">
+                    </div>
+                    <div class="form-group">
+                        <label>Párrafo 1</label>
+                        <textarea id="edit-about-p1" placeholder="Primer párrafo"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Párrafo 2</label>
+                        <textarea id="edit-about-p2" placeholder="Segundo párrafo"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>📷 Foto de la Sección (opcional, reemplaza al emoji)</label>
+                        <div class="image-upload-area" id="aboutUploadArea" style="max-width:300px;aspect-ratio:4/3;">
+                            <input type="file" id="aboutFileInput" accept="image/*">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text">Haz clic para subir una foto</div>
+                            <div class="upload-hint">PNG, JPG (máx. 2MB)</div>
+                        </div>
+                        <button class="btn btn-sm btn-danger" onclick="removeAboutImage()" id="aboutRemoveBtn" style="display:none;margin-top:0.5rem;">🗑️ Quitar imagen</button>
+                    </div>
+                    <div class="form-group">
+                        <label>😊 Emoji de Fondo (si no hay foto)</label>
+                        <div class="emoji-grid" id="aboutEmojiPicker"></div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveAbout()">💾 Guardar Cambios</button>
+                    </div>
+                </div>
+
+                <!-- PRODUCTS HEADER -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🌹 Encabezado de Productos</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Etiqueta</label>
+                        <input type="text" id="edit-products-tag" placeholder="Nuestra Colección">
+                    </div>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="edit-products-title" placeholder="Título de productos">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="edit-products-desc" placeholder="Descripción"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveProductsHeader()">💾 Guardar</button>
+                    </div>
+                </div>
+
+                <!-- SERVICES HEADER -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🎯 Encabezado de Servicios</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Etiqueta</label>
+                        <input type="text" id="edit-services-tag" placeholder="Servicios">
+                    </div>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="edit-services-title" placeholder="Título de servicios">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="edit-services-desc" placeholder="Descripción"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveServicesHeader()">💾 Guardar</button>
+                    </div>
+                </div>
+
+                <!-- TESTIMONIALS HEADER -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>💬 Encabezado de Testimonios</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Etiqueta</label>
+                        <input type="text" id="edit-testimonials-tag" placeholder="Testimonios">
+                    </div>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="edit-testimonials-title" placeholder="Título">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="edit-testimonials-desc" placeholder="Descripción"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveTestimonialsHeader()">💾 Guardar</button>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>📌 Pie de Página</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de la Marca</label>
+                        <input type="text" id="edit-footer-brand" placeholder="Nombre del negocio">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción del Footer</label>
+                        <textarea id="edit-footer-desc" placeholder="Descripción"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Derechos de Autor</label>
+                        <input type="text" id="edit-footer-copy" placeholder="© 2026...">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveFooter()">💾 Guardar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ PRODUCTS ═══ -->
+            <div class="panel" id="panel-products">
+                <div class="topbar">
+                    <h1>🌸 Productos</h1>
+                    <div class="topbar-actions">
+                        <button class="btn btn-primary" onclick="openProductModal()">➕ Nuevo Producto</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Precio</th>
+                                    <th>Etiqueta</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ SERVICES ═══ -->
+            <div class="panel" id="panel-services">
+                <div class="topbar">
+                    <h1>🎯 Servicios</h1>
+                    <div class="topbar-actions">
+                        <button class="btn btn-primary" onclick="openServiceModal()">➕ Nuevo Servicio</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Título</th>
+                                    <th>Descripción</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servicesTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TESTIMONIALS ═══ -->
+            <div class="panel" id="panel-testimonials">
+                <div class="topbar">
+                    <h1>💬 Testimonios</h1>
+                    <div class="topbar-actions">
+                        <button class="btn btn-primary" onclick="openTestimonialModal()">➕ Nuevo Testimonio</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Autor</th>
+                                    <th>Rol</th>
+                                    <th>Texto</th>
+                                    <th>Estrellas</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="testimonialsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ CONTACT ═══ -->
+            <div class="panel" id="panel-contact">
+                <div class="topbar">
+                    <h1>📞 Información de Contacto</h1>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Datos de Contacto</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Etiqueta</label>
+                        <input type="text" id="edit-contact-tag" placeholder="Contacto">
+                    </div>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="edit-contact-title" placeholder="Título">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="edit-contact-desc" placeholder="Descripción"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" id="edit-contact-address" placeholder="Dirección completa">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" id="edit-contact-phone" placeholder="+52 (55) 1234-5678">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="edit-contact-email" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Horario</label>
+                        <input type="text" id="edit-contact-hours" placeholder="Lun - Sáb: 8:00 AM - 8:00 PM">
+                    </div>
+                    <div class="form-group">
+                        <label>📱 Número de WhatsApp <span style="font-weight: 400; color: var(--text-light);">(para recibir pedidos)</span></label>
+                        <input type="text" id="edit-whatsapp-number" placeholder="5215512345678">
+                        <div class="hint">Incluye código de país sin espacios ni guiones. Ej: 5215512345678 (México)</div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveContact()">💾 Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ STYLE ═══ -->
+            <div class="panel" id="panel-style">
+                <div class="topbar">
+                    <h1>🎨 Estilo & Colores</h1>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Paleta de Colores</h3>
+                    </div>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Personaliza los colores principales de tu sitio web. Los cambios se aplicarán inmediatamente.</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Color Principal (Botones, Links)</label>
+                            <input type="color" id="style-primary" value="#4a7c59" style="width: 60px; height: 40px; padding: 2px; cursor: pointer;">
+                        </div>
+                        <div class="form-group">
+                            <label>Color Acento (Destacados)</label>
+                            <input type="color" id="style-accent" value="#d4a574" style="width: 60px; height: 40px; padding: 2px; cursor: pointer;">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fondo General</label>
+                            <input type="color" id="style-bg" value="#faf8f5" style="width: 60px; height: 40px; padding: 2px; cursor: pointer;">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Texto</label>
+                            <input type="color" id="style-text" value="#2c2c2c" style="width: 60px; height: 40px; padding: 2px; cursor: pointer;">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" onclick="saveStyle()">💾 Guardar Estilo</button>
+                        <button class="btn btn-outline" onclick="resetStyle()">🔄 Restaurar Colores</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Presets de Colores</h3>
+                    </div>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Selecciona un esquema predefinido:</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="applyPreset('garden')">
+                            🌿 Jardín
+                        </button>
+                        <button class="btn btn-outline" onclick="applyPreset('rose')">
+                            🌹 Rosado
+                        </button>
+                        <button class="btn btn-outline" onclick="applyPreset('ocean')">
+                            🌊 Océano
+                        </button>
+                        <button class="btn btn-outline" onclick="applyPreset('sunset')">
+                            🌅 Atardecer
+                        </button>
+                        <button class="btn btn-outline" onclick="applyPreset('lavender')">
+                            💜 Lavanda
+                        </button>
+                        <button class="btn btn-outline" onclick="applyPreset('earth')">
+                            🍂 Tierra
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ GALLERY ═══ -->
+            <div class="panel" id="panel-gallery">
+                <div class="topbar">
+                    <h1>📸 Galería de Fotos</h1>
+                    <div class="topbar-actions">
+                        <button class="btn btn-primary" onclick="addGalleryItem()">➕ Agregar Foto</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Fotos de la Galería</h3>
+                        <small style="color:var(--text-light);">Arrastra las fotos o haz clic en Agregar Foto. Se muestran en el sitio como una cuadrícula tipo Instagram.</small>
+                    </div>
+                    <div id="galleryAdminGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;"></div>
+                    <p id="noGalleryMsg" style="text-align:center;color:var(--text-light);padding:2rem;display:none;">No hay fotos aún. Haz clic en "Agregar Foto" para comenzar.</p>
+                </div>
+            </div>
+
+            <!-- ═══ PROMOTIONS ═══ -->
+            <div class="panel" id="panel-promos">
+                <div class="topbar">
+                    <h1>🏷️ Promociones</h1>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Crear / Editar Promociones</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Título de la Promoción</label>
+                        <input type="text" id="promo-title" placeholder="Ej: 20% OFF en Rosas">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <input type="text" id="promo-desc" placeholder="Ej: Válido solo este fin de semana">
+                    </div>
+                    <div class="form-group">
+                        <label>Badge (texto small)</label>
+                        <input type="text" id="promo-badge" placeholder="Ej: 🔥 Oferta Especial">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="promo-active"> Activar esta promoción en el sitio
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="savePromo()">💾 Guardar Promoción</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3>Vista Previa</h3></div>
+                    <div id="promoPreview" style="background: linear-gradient(135deg, #d4a574, #e8c9a0); padding: 1.5rem; border-radius: 12px; text-align: center; display: none;">
+                        <span class="promo-badge" id="promoPreviewBadge" style="background: #4a7c59; color: white; padding: 0.2rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700;"></span>
+                        <h3 id="promoPreviewTitle" style="margin: 0.5rem 0 0.3rem; color: #345a40;"></h3>
+                        <p id="promoPreviewDesc" style="color: #6b6b6b; margin: 0;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ ORDER HISTORY ═══ -->
+            <div class="panel" id="panel-orders">
+                <div class="topbar">
+                    <h1>📋 Historial de Pedidos</h1>
+                    <div class="topbar-actions">
+                        <button class="btn btn-danger btn-sm" onclick="clearOrderHistory()">🗑️ Limpiar</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3>Pedidos Recibidos</h3></div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Tel</th>
+                                    <th>Productos</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable"></tbody>
+                        </table>
+                    </div>
+                    <p id="noOrdersMsg" style="text-align:center; color: var(--text-light); padding: 2rem;">No hay pedidos registrados aún. Los pedidos enviados por WhatsApp se guardarán aquí.</p>
+                </div>
+            </div>
+
+            <!-- ═══ ANALYTICS ═══ -->
+            <div class="panel" id="panel-analytics">
+                <div class="topbar">
+                    <h1>📊 Analytics del Sitio</h1>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon green">👁️</div>
+                        <div>
+                            <div class="stat-value" id="analyticsVisits">0</div>
+                            <div class="stat-label">Visitas Totales</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">🛒</div>
+                        <div>
+                            <div class="stat-value" id="analyticsOrders">0</div>
+                            <div class="stat-label">Pedidos Enviados</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">📱</div>
+                        <div>
+                            <div class="stat-value" id="analyticsWhatsApp">0</div>
+                            <div class="stat-label">Clics WhatsApp</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon pink">⭐</div>
+                        <div>
+                            <div class="stat-value" id="analyticsLoyalty">0</div>
+                            <div class="stat-label">Clientes VIP (3+ visitas)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3>📅 Última Actualización</h3></div>
+                    <p id="analyticsLastUpdate" style="color: var(--text-light);"></p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🔄 Resetear Contadores</h3>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                        <button class="btn btn-danger btn-sm" onclick="resetAnalytics()">🗑️ Limpiar Analytics</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ═══ PRODUCT MODAL ═══ -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="productModalTitle">Nuevo Producto</h3>
+                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" id="pm-name" placeholder="Nombre del producto">
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="pm-desc" placeholder="Descripción del producto"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Precio</label>
+                    <input type="text" id="pm-price" placeholder="$899">
+                </div>
+                <div class="form-group">
+                    <label>Etiqueta</label>
+                    <input type="text" id="pm-tag" placeholder="Más Vendido">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Foto del Producto <span style="font-weight: 400; color: var(--text-light);">(opcional, reemplaza al emoji)</span></label>
+                <div class="image-upload-area" id="productImageUploadArea">
+                    <input type="file" id="productImageInput" accept="image/*">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">Haz clic para subir una foto</div>
+                    <div class="upload-hint">PNG o JPG (máx. 2MB)</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Emoji / Ícono <span style="font-weight: 400; color: var(--text-light);">(se usa si no hay foto)</span></label>
+                <div class="emoji-grid" id="productEmojiPicker"></div>
+            </div>
+            <div class="form-group">
+                <label>Color de Fondo <span style="font-weight: 400; color: var(--text-light);">(se usa si no hay foto)</span></label>
+                <div class="color-options" id="productColorPicker"></div>
+            </div>
+            <input type="hidden" id="pm-edit-index" value="-1">
+            <div class="form-actions">
+                <button class="btn btn-success" onclick="saveProduct()">💾 Guardar</button>
+                <button class="btn btn-outline" onclick="closeModal('productModal')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ SERVICE MODAL ═══ -->
+    <div class="modal-overlay" id="serviceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="serviceModalTitle">Nuevo Servicio</h3>
+                <button class="modal-close" onclick="closeModal('serviceModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" id="sm-title" placeholder="Nombre del servicio">
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="sm-desc" placeholder="Descripción del servicio"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Emoji / Ícono</label>
+                <div class="emoji-grid" id="serviceEmojiPicker"></div>
+            </div>
+            <input type="hidden" id="sm-edit-index" value="-1">
+            <div class="form-actions">
+                <button class="btn btn-success" onclick="saveService()">💾 Guardar</button>
+                <button class="btn btn-outline" onclick="closeModal('serviceModal')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ TESTIMONIAL MODAL ═══ -->
+    <div class="modal-overlay" id="testimonialModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="testimonialModalTitle">Nuevo Testimonio</h3>
+                <button class="modal-close" onclick="closeModal('testimonialModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Nombre del Autor</label>
+                <input type="text" id="tm-name" placeholder="María García">
+            </div>
+            <div class="form-group">
+                <label>Rol / Relación</label>
+                <input type="text" id="tm-role" placeholder="Cliente, Novia, etc.">
+            </div>
+            <div class="form-group">
+                <label>Testimonio</label>
+                <textarea id="tm-text" placeholder="Escribe el testimonio..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Estrellas</label>
+                <select id="tm-stars">
+                    <option value="★★★★★">★★★★★ (5)</option>
+                    <option value="★★★★☆">★★★★☆ (4)</option>
+                    <option value="★★★☆☆">★★★☆☆ (3)</option>
+                    <option value="★★☆☆☆">★★☆☆☆ (2)</option>
+                    <option value="★☆☆☆☆">★☆☆☆☆ (1)</option>
+                </select>
+            </div>
+            <input type="hidden" id="tm-edit-index" value="-1">
+            <div class="form-actions">
+                <button class="btn btn-success" onclick="saveTestimonial()">💾 Guardar</button>
+                <button class="btn btn-outline" onclick="closeModal('testimonialModal')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <!-- MODAL CONFIRM -->
+    <div class="modal-alert-overlay" id="confirmModal">
+        <div class="modal-alert-card">
+            <div class="modal-alert-icon" id="confirmIcon">⚠️</div>
+            <h3 id="confirmTitle"></h3>
+            <p id="confirmMsg"></p>
+            <div class="modal-alert-actions">
+                <button class="modal-alert-btn primary danger" id="confirmOkBtn" onclick="resolveConfirm(true)">Eliminar</button>
+                <button class="modal-alert-btn" onclick="resolveConfirm(false)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- HIDDEN FILE INPUT -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+
+    <script>
+    // ══════════════════════════════════════════════
+    //  DATA MANAGEMENT
+    // ══════════════════════════════════════════════
+
+    const DEFAULT_DATA = {
+        navLogo: 'Flores & Arte',
+        logoImage: null,
+        heroTitle: 'Donde cada flor cuenta una <em>historia</em>',
+        heroDesc: 'Creamos arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables. Con más de 15 años de experiencia, cada pétalo es elegido con amor.',
+        heroEmoji: '🌺',
+        productsTag: 'Nuestra Colección',
+        productsTitle: 'Arreglos Florales Exclusivos',
+        productsDesc: 'Descubre nuestras creaciones más populares, diseñadas para cada ocasión y emoción.',
+        products: [
+            { name: 'Ramo de Rosas Rojas', desc: '12 rosas rojas frescas con eucalipto y envoltura de kraft.', price: '$899', tag: 'Más Vendido', emoji: '🌹', color: '#fce4ec' },
+            { name: 'Bouquet Primaveral', desc: 'Mezcla vibrante de tulipanes, gerberas y ranúnculos de temporada.', price: '$1,250', tag: 'Temporada', emoji: '💐', color: '#e8f5e9' },
+            { name: 'Caja de Orquídeas', desc: 'Elegante orquídea phalaenopsis en caja de terciopelo negro.', price: '$1,800', tag: 'Premium', emoji: '🪻', color: '#f3e5f5' },
+            { name: 'Arreglo Zen', desc: 'Arreglo minimalista con flores blancas, bambú y piedras pulidas.', price: '$950', tag: 'Minimalista', emoji: '🎋', color: '#e0f2f1' },
+            { name: 'Girasoles de Sol', desc: 'Ramo alegre de girasoles con accesorias naturales.', price: '$750', tag: 'Alegría', emoji: '🌻', color: '#fff8e1' },
+            { name: 'Cesta Gourmet Floral', desc: 'Cesta con flores mixtas, chocolate artesanal y vino espumoso.', price: '$2,200', tag: 'Regalo', emoji: '🧺', color: '#fff3e0' }
+        ],
+        aboutTag: 'Sobre Nosotros',
+        aboutTitle: 'Pasión por las flores desde 2008',
+        aboutP1: 'Somos una florería familiar con más de 15 años de trayectoria creando arreglos que enamoran. Nuestro equipo de expertos floristas selecciona cada flor cuidadosamente para garantizar frescura y belleza incomparables.',
+        aboutP2: 'Creemos que las flores son el lenguaje universal del amor, la alegría y la gratitud. Por eso, nos esforzamos en transformar cada bouquet en una obra de arte.',
+        aboutEmoji: '🌷',
+        aboutImage: null,
+        servicesTag: 'Servicios',
+        servicesTitle: 'Lo que ofrecemos',
+        servicesDesc: 'Más que flores, creamos experiencias inolvidables para cada ocasión especial.',
+        services: [
+            { icon: '💒', title: 'Bodas & Eventos', desc: 'Decoración floral completa para bodas, quinceañeras y eventos corporativos.' },
+            { icon: '🚚', title: 'Entrega a Domicilio', desc: 'Envío el mismo día en la ciudad. Tus flores frescas en horas.' },
+            { icon: '📦', title: 'Suscripción Floral', desc: 'Recibe flores frescas cada semana o mes en la comodidad de tu hogar.' },
+            { icon: '🎨', title: 'Diseño Personalizado', desc: 'Creamos arreglos únicos según tu visión, colores y preferencias.' }
+        ],
+        testimonialsTag: 'Testimonios',
+        testimonialsTitle: 'Lo que dicen nuestros clientes',
+        testimonialsDesc: 'Miles de clientes satisfechos confían en nosotros para sus momentos más especiales.',
+        testimonials: [
+            { text: 'El ramo de mi boda fue absolutamente espectacular. Todos los invitados preguntaron por la florería. ¡Gracias por hacer mi día aún más mágico!', name: 'María García', role: 'Novia', stars: '★★★★★', avatar: 'M' },
+            { text: 'Llevo 6 meses con la suscripción y cada entrega es una sorpresa más hermosa que la anterior. Las flores duran muchísimo y el diseño es increíble.', name: 'Carlos López', role: 'Cliente recurrente', stars: '★★★★★', avatar: 'C' },
+            { text: 'Contraté su servicio para el evento corporativo de mi empresa y el resultado superó todas las expectativas. Profesionales de principio a fin.', name: 'Ana Martínez', role: 'Directora de Eventos', stars: '★★★★★', avatar: 'A' }
+        ],
+        contactTag: 'Contacto',
+        contactTitle: 'Estamos para servirte',
+        contactDesc: '¿Tienes una idea en mente? ¡Hablemos y la hacemos realidad!',
+        contactAddress: 'Calle de las Flores 123, Centro Histórico, Ciudad de México',
+        contactPhone: '+52 (55) 1234-5678',
+        contactEmail: 'hola@floresyarte.com',
+        contactHours: 'Lun - Sáb: 8:00 AM - 8:00 PM | Dom: 9:00 AM - 3:00 PM',
+        whatsappNumber: '5215512345678',
+        footerBrand: 'Flores & Arte',
+        footerDesc: 'Transformamos la naturaleza en arte. Cada arreglo es una obra única creada con pasión y dedicación para making tus momentos más especiales aún más memorables.',
+        footerCopy: '© 2026 Flores & Arte. Todos los derechos reservados. Hecho con 💚',
+        promotions: [],
+        gallery: [
+            { emoji: '🌹', title: 'Rosas Clásicas', color: '#fce4ec' },
+            { emoji: '💐', title: 'Bouquet de Bodas', color: '#f3e5f5', tall: true },
+            { emoji: '🌸', title: 'Flores de Cerezo', color: '#fce4ec' },
+            { emoji: '🌻', title: 'Girasoles de Verano', color: '#fff8e1' },
+            { emoji: '🌺', title: 'Arreglo Tropical', color: '#e0f2f1' },
+            { emoji: '🪷', title: 'Loto Zen', color: '#e8f5e9', tall: true },
+            { emoji: '🌷', title: 'Tulipanes Holandeses', color: '#fce4ec' },
+            { emoji: '🪻', title: 'Orquídeas Exóticas', color: '#f3e5f5' },
+            { emoji: '🌼', title: 'Margaritas Frescas', color: '#fff8e1' }
+        ],
+        style: {
+            primary: '#4a7c59',
+            accent: '#d4a574',
+            bg: '#faf8f5',
+            text: '#2c2c2c'
+        }
+    };
+
+    const FLOWER_EMOJIS = ['🌸','🌹','🌺','🌷','🌻','💐','🪻','🌼','🏵️','🌾','🌿','🍃','☘️','🍀','🌱','🪴','🎋','💐','💒','🚚','📦','🎨','🎁','💐','🧺','💝','❤️','🧡','💛','💚','💜','🤍','🖤','🦋','🐝','🌿','🍀','☀️','🌙','⭐'];
+    const BG_COLORS = ['#fce4ec','#f3e5f5','#e8eaf6','#e3f2fd','#e0f7fa','#e8f5e9','#fff8e1','#fff3e0','#efebe9','#f5f5f5','#fce4ec','#e0f2f1'];
+
+    let data = {};
+    async function loadData() {
+        try {
+            const res = await fetch('/api/data');
+            if (res.ok) {
+                const serverData = await res.json();
+                data = { ...DEFAULT_DATA, ...serverData };
+                return;
+            }
+        } catch {}
+        // Fallback to localStorage
+        try {
+            const saved = localStorage.getItem('floresArteData');
+            data = saved ? { ...DEFAULT_DATA, ...JSON.parse(saved) } : { ...DEFAULT_DATA };
+        } catch { data = { ...DEFAULT_DATA }; }
+    }
+    async function saveData() {
+        try {
+            const res = await fetch('/api/data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) {
+                showToast('Cambios guardados en servidor ✅');
+                return;
+            }
+        } catch {}
+        // Fallback to localStorage
+        localStorage.setItem('floresArteData', JSON.stringify(data));
+        showToast('Cambios guardados localmente ✅');
+    }
+
+    // ══════════════════════════════════════════════
+    //  NAVIGATION
+    // ══════════════════════════════════════════════
+
+    function navigateTo(panel) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + panel).classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(a => {
+            a.classList.toggle('active', a.dataset.panel === panel);
+        });
+        document.getElementById('sidebar').classList.remove('open');
+        window.scrollTo(0, 0);
+    }
+
+    document.querySelectorAll('.sidebar-nav a').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            navigateTo(a.dataset.panel);
+        });
+    });
+
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    // ══════════════════════════════════════════════
+    //  EMOJI / COLOR PICKERS
+    // ══════════════════════════════════════════════
+
+    function renderEmojiPicker(containerId, selectedEmoji, onSelect) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = FLOWER_EMOJIS.map(e =>
+            `<button class="emoji-btn ${e === selectedEmoji ? 'selected' : ''}" data-emoji="${e}">${e}</button>`
+        ).join('');
+        container.querySelectorAll('.emoji-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                container.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                onSelect(btn.dataset.emoji);
+            });
+        });
+    }
+
+    function renderColorPicker(containerId, selectedColor, onSelect) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = BG_COLORS.map(c =>
+            `<div class="color-swatch ${c === selectedColor ? 'selected' : ''}" style="background: ${c}" data-color="${c}"></div>`
+        ).join('');
+        container.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.addEventListener('click', () => {
+                container.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                swatch.classList.add('selected');
+                onSelect(swatch.dataset.color);
+            });
+        });
+    }
+
+    // ══════════════════════════════════════════════
+    //  DASHBOARD
+    // ══════════════════════════════════════════════
+
+    function renderDashboard() {
+        document.getElementById('statsGrid').innerHTML = `
+            <div class="stat-card">
+                <div class="stat-icon green">🌸</div>
+                <div>
+                    <div class="stat-value">${(data.products||[]).length}</div>
+                    <div class="stat-label">Productos</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue">🎯</div>
+                <div>
+                    <div class="stat-value">${(data.services||[]).length}</div>
+                    <div class="stat-label">Servicios</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">💬</div>
+                <div>
+                    <div class="stat-value">${(data.testimonials||[]).length}</div>
+                    <div class="stat-label">Testimonios</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon pink">📊</div>
+                <div>
+                    <div class="stat-value">${Math.round(JSON.stringify(data).length / 1024 * 10) / 10}KB</div>
+                    <div class="stat-label">Datos Guardados</div>
+                </div>
+            </div>
+        `;
+        document.getElementById('siteSummary').innerHTML = `
+            <p><strong>Nombre:</strong> ${data.navLogo || 'No definido'}</p>
+            <p><strong>Email:</strong> ${data.contactEmail || 'No definido'}</p>
+            <p><strong>Teléfono:</strong> ${data.contactPhone || 'No definido'}</p>
+            <p><strong>Última actualización:</strong> ${new Date().toLocaleString('es-MX')}</p>
+        `;
+    }
+
+    // ══════════════════════════════════════════════
+    //  CONTENT EDITING
+    // ══════════════════════════════════════════════
+
+    function loadContentForms() {
+        document.getElementById('edit-hero-title').value = data.heroTitle || '';
+        document.getElementById('edit-hero-desc').value = data.heroDesc || '';
+        document.getElementById('edit-nav-logo').value = data.navLogo || '';
+        document.getElementById('edit-about-tag').value = data.aboutTag || '';
+        document.getElementById('edit-about-title').value = data.aboutTitle || '';
+        document.getElementById('edit-about-p1').value = data.aboutP1 || '';
+        document.getElementById('edit-about-p2').value = data.aboutP2 || '';
+        document.getElementById('edit-products-tag').value = data.productsTag || '';
+        document.getElementById('edit-products-title').value = data.productsTitle || '';
+        document.getElementById('edit-products-desc').value = data.productsDesc || '';
+        document.getElementById('edit-services-tag').value = data.servicesTag || '';
+        document.getElementById('edit-services-title').value = data.servicesTitle || '';
+        document.getElementById('edit-services-desc').value = data.servicesDesc || '';
+        document.getElementById('edit-testimonials-tag').value = data.testimonialsTag || '';
+        document.getElementById('edit-testimonials-title').value = data.testimonialsTitle || '';
+        document.getElementById('edit-testimonials-desc').value = data.testimonialsDesc || '';
+        document.getElementById('edit-contact-tag').value = data.contactTag || '';
+        document.getElementById('edit-contact-title').value = data.contactTitle || '';
+        document.getElementById('edit-contact-desc').value = data.contactDesc || '';
+        document.getElementById('edit-contact-address').value = data.contactAddress || '';
+        document.getElementById('edit-contact-phone').value = data.contactPhone || '';
+        document.getElementById('edit-contact-email').value = data.contactEmail || '';
+        document.getElementById('edit-contact-hours').value = data.contactHours || '';
+        document.getElementById('edit-whatsapp-number').value = data.whatsappNumber || '';
+        document.getElementById('edit-footer-brand').value = data.footerBrand || '';
+        document.getElementById('edit-footer-desc').value = data.footerDesc || '';
+        document.getElementById('edit-footer-copy').value = data.footerCopy || '';
+
+        renderEmojiPicker('heroEmojiPicker', data.heroEmoji, e => { data.heroEmoji = e; });
+        renderEmojiPicker('aboutEmojiPicker', data.aboutEmoji, e => { data.aboutEmoji = e; });
+        setupAboutUpload();
+
+        if (data.style) {
+            document.getElementById('style-primary').value = data.style.primary || '#4a7c59';
+            document.getElementById('style-accent').value = data.style.accent || '#d4a574';
+            document.getElementById('style-bg').value = data.style.bg || '#faf8f5';
+            document.getElementById('style-text').value = data.style.text || '#2c2c2c';
+        }
+    }
+
+    function saveHero() {
+        data.heroTitle = document.getElementById('edit-hero-title').value;
+        data.heroDesc = document.getElementById('edit-hero-desc').value;
+        saveData();
+    }
+    function saveNav() {
+        data.navLogo = document.getElementById('edit-nav-logo').value;
+        saveData();
+    }
+    function saveAbout() {
+        data.aboutTag = document.getElementById('edit-about-tag').value;
+        data.aboutTitle = document.getElementById('edit-about-title').value;
+        data.aboutP1 = document.getElementById('edit-about-p1').value;
+        data.aboutP2 = document.getElementById('edit-about-p2').value;
+        saveData();
+    }
+
+    function setupAboutUpload() {
+        const area = document.getElementById('aboutUploadArea');
+        const input = document.getElementById('aboutFileInput');
+        const removeBtn = document.getElementById('aboutRemoveBtn');
+
+        if (data.aboutImage) {
+            area.classList.add('has-image');
+            area.innerHTML = `<input type="file" id="aboutFileInput" accept="image/*"><img src="${data.aboutImage}" alt="About"><button class="remove-image" onclick="event.stopPropagation(); removeAboutImage()">×</button>`;
+            removeBtn.style.display = 'inline-block';
+        } else {
+            area.classList.remove('has-image');
+            area.innerHTML = `<input type="file" id="aboutFileInput" accept="image/*"><div class="upload-icon">📷</div><div class="upload-text">Haz clic para subir una foto</div><div class="upload-hint">PNG, JPG (máx. 2MB)</div>`;
+            removeBtn.style.display = 'none';
+        }
+
+        const newInput = document.getElementById('aboutFileInput');
+        newInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('La imagen no puede superar 2MB', true); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+                data.aboutImage = ev.target.result;
+                setupAboutUpload();
+                showToast('Foto cargada ✅');
+            };
+            reader.readAsDataURL(file);
+        });
+        area.onclick = () => newInput.click();
+    }
+
+    function removeAboutImage() {
+        data.aboutImage = null;
+        setupAboutUpload();
+        showToast('Imagen removida');
+    }
+    function saveProductsHeader() {
+        data.productsTag = document.getElementById('edit-products-tag').value;
+        data.productsTitle = document.getElementById('edit-products-title').value;
+        data.productsDesc = document.getElementById('edit-products-desc').value;
+        saveData();
+    }
+    function saveServicesHeader() {
+        data.servicesTag = document.getElementById('edit-services-tag').value;
+        data.servicesTitle = document.getElementById('edit-services-title').value;
+        data.servicesDesc = document.getElementById('edit-services-desc').value;
+        saveData();
+    }
+    function saveTestimonialsHeader() {
+        data.testimonialsTag = document.getElementById('edit-testimonials-tag').value;
+        data.testimonialsTitle = document.getElementById('edit-testimonials-title').value;
+        data.testimonialsDesc = document.getElementById('edit-testimonials-desc').value;
+        saveData();
+    }
+    function saveContact() {
+        data.contactTag = document.getElementById('edit-contact-tag').value;
+        data.contactTitle = document.getElementById('edit-contact-title').value;
+        data.contactDesc = document.getElementById('edit-contact-desc').value;
+        data.contactAddress = document.getElementById('edit-contact-address').value;
+        data.contactPhone = document.getElementById('edit-contact-phone').value;
+        data.contactEmail = document.getElementById('edit-contact-email').value;
+        data.contactHours = document.getElementById('edit-contact-hours').value;
+        data.whatsappNumber = document.getElementById('edit-whatsapp-number').value;
+        saveData();
+    }
+    function saveFooter() {
+        data.footerBrand = document.getElementById('edit-footer-brand').value;
+        data.footerDesc = document.getElementById('edit-footer-desc').value;
+        data.footerCopy = document.getElementById('edit-footer-copy').value;
+        saveData();
+    }
+
+    // ══════════════════════════════════════════════
+    //  PRODUCTS CRUD
+    // ══════════════════════════════════════════════
+
+    let selectedProductEmoji = '🌹';
+    let selectedProductColor = '#fce4ec';
+    let selectedProductImage = null; // base64 string
+
+    // ── PRODUCT IMAGE UPLOAD ──
+    function setupProductImageUpload() {
+        const area = document.getElementById('productImageUploadArea');
+        const input = document.getElementById('productImageInput');
+        area.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-image')) return;
+            input.click();
+        });
+        input.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('La imagen no puede superar 2MB', true); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+                selectedProductImage = ev.target.result;
+                renderProductImagePreview();
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function renderProductImagePreview() {
+        const area = document.getElementById('productImageUploadArea');
+        if (selectedProductImage) {
+            area.classList.add('has-image');
+            area.innerHTML = `<input type="file" id="productImageInput" accept="image/*"><img src="${selectedProductImage}" alt="Preview"><button class="remove-image" onclick="event.stopPropagation(); removeProductImage()">×</button>`;
+            // Re-attach event listeners
+            const input = document.getElementById('productImageInput');
+            input.addEventListener('change', e => {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (file.size > 2 * 1024 * 1024) { showToast('La imagen no puede superar 2MB', true); return; }
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    selectedProductImage = ev.target.result;
+                    renderProductImagePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+        } else {
+            area.classList.remove('has-image');
+            area.innerHTML = `<input type="file" id="productImageInput" accept="image/*"><div class="upload-icon">📷</div><div class="upload-text">Haz clic para subir una foto</div><div class="upload-hint">PNG o JPG (máx. 2MB)</div>`;
+            setupProductImageUpload();
+        }
+    }
+
+    function removeProductImage() {
+        selectedProductImage = null;
+        renderProductImagePreview();
+    }
+
+    function renderProductsTable() {
+        const tbody = document.getElementById('productsTable');
+        if (!data.products || data.products.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><div class="icon">🌸</div><p>No hay productos</p></td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.products.map((p, i) => `
+            <tr>
+                <td>${p.image ? `<img src="${p.image}" class="product-thumb" alt="${p.name}">` : `<span class="product-thumb-emoji">${p.emoji}</span>`}</td>
+                <td><strong>${p.name}</strong></td>
+                <td>${p.desc.substring(0, 50)}${p.desc.length > 50 ? '...' : ''}</td>
+                <td><strong>${p.price}</strong></td>
+                <td><span style="background: ${p.color || '#eee'}; padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.8rem;">${p.tag}</span></td>
+                <td>
+                    <button class="btn btn-sm btn-outline" onclick="editProduct(${i})">✏️</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteProduct(${i})">🗑️</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function openProductModal(index) {
+        const isEdit = typeof index === 'number';
+        document.getElementById('productModalTitle').textContent = isEdit ? 'Editar Producto' : 'Nuevo Producto';
+        document.getElementById('pm-edit-index').value = isEdit ? index : -1;
+        if (isEdit) {
+            const p = data.products[index];
+            document.getElementById('pm-name').value = p.name;
+            document.getElementById('pm-desc').value = p.desc;
+            document.getElementById('pm-price').value = p.price;
+            document.getElementById('pm-tag').value = p.tag;
+            selectedProductEmoji = p.emoji;
+            selectedProductColor = p.color;
+            selectedProductImage = p.image || null;
+        } else {
+            document.getElementById('pm-name').value = '';
+            document.getElementById('pm-desc').value = '';
+            document.getElementById('pm-price').value = '';
+            document.getElementById('pm-tag').value = '';
+            selectedProductEmoji = '🌹';
+            selectedProductColor = '#fce4ec';
+            selectedProductImage = null;
+        }
+        renderProductImagePreview();
+        renderEmojiPicker('productEmojiPicker', selectedProductEmoji, e => { selectedProductEmoji = e; });
+        renderColorPicker('productColorPicker', selectedProductColor, c => { selectedProductColor = c; });
+        document.getElementById('productModal').classList.add('open');
+    }
+
+    function editProduct(index) { openProductModal(index); }
+
+    function saveProduct() {
+        const name = document.getElementById('pm-name').value.trim();
+        const desc = document.getElementById('pm-desc').value.trim();
+        const price = document.getElementById('pm-price').value.trim();
+        const tag = document.getElementById('pm-tag').value.trim();
+        if (!name) { showToast('El nombre es obligatorio', true); return; }
+        const product = { name, desc, price, tag, emoji: selectedProductEmoji, color: selectedProductColor, image: selectedProductImage || null };
+        const index = parseInt(document.getElementById('pm-edit-index').value);
+        if (index >= 0) { data.products[index] = product; }
+        else { data.products = data.products || []; data.products.push(product); }
+        saveData();
+        renderProductsTable();
+        closeModal('productModal');
+    }
+
+    async function deleteProduct(index) {
+        if (await showConfirm('🗑️', 'Eliminar Producto', `¿Eliminar "${data.products[index].name}"?`, { confirmText: 'Eliminar' })) {
+            data.products.splice(index, 1);
+            saveData();
+            renderProductsTable();
+        }
+    }
+
+    // ══════════════════════════════════════════════
+    //  SERVICES CRUD
+    // ══════════════════════════════════════════════
+
+    let selectedServiceEmoji = '💒';
+
+    function renderServicesTable() {
+        const tbody = document.getElementById('servicesTable');
+        if (!data.services || data.services.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="empty-state"><div class="icon">🎯</div><p>No hay servicios</p></td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.services.map((s, i) => `
+            <tr>
+                <td class="item-emoji">${s.icon}</td>
+                <td><strong>${s.title}</strong></td>
+                <td>${s.desc.substring(0, 60)}${s.desc.length > 60 ? '...' : ''}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline" onclick="editService(${i})">✏️</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteService(${i})">🗑️</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function openServiceModal(index) {
+        const isEdit = typeof index === 'number';
+        document.getElementById('serviceModalTitle').textContent = isEdit ? 'Editar Servicio' : 'Nuevo Servicio';
+        document.getElementById('sm-edit-index').value = isEdit ? index : -1;
+        if (isEdit) {
+            const s = data.services[index];
+            document.getElementById('sm-title').value = s.title;
+            document.getElementById('sm-desc').value = s.desc;
+            selectedServiceEmoji = s.icon;
+        } else {
+            document.getElementById('sm-title').value = '';
+            document.getElementById('sm-desc').value = '';
+            selectedServiceEmoji = '💒';
+        }
+        renderEmojiPicker('serviceEmojiPicker', selectedServiceEmoji, e => { selectedServiceEmoji = e; });
+        document.getElementById('serviceModal').classList.add('open');
+    }
+
+    function editService(index) { openServiceModal(index); }
+
+    function saveService() {
+        const title = document.getElementById('sm-title').value.trim();
+        const desc = document.getElementById('sm-desc').value.trim();
+        if (!title) { showToast('El título es obligatorio', true); return; }
+        const service = { icon: selectedServiceEmoji, title, desc };
+        const index = parseInt(document.getElementById('sm-edit-index').value);
+        if (index >= 0) { data.services[index] = service; }
+        else { data.services = data.services || []; data.services.push(service); }
+        saveData();
+        renderServicesTable();
+        closeModal('serviceModal');
+    }
+
+    async function deleteService(index) {
+        if (await showConfirm('🗑️', 'Eliminar Servicio', `¿Eliminar "${data.services[index].title}"?`, { confirmText: 'Eliminar' })) {
+            data.services.splice(index, 1);
+            saveData();
+            renderServicesTable();
+        }
+    }
+
+    // ══════════════════════════════════════════════
+    //  TESTIMONIALS CRUD
+    // ══════════════════════════════════════════════
+
+    function renderTestimonialsTable() {
+        const tbody = document.getElementById('testimonialsTable');
+        if (!data.testimonials || data.testimonials.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><div class="icon">💬</div><p>No hay testimonios</p></td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.testimonials.map((t, i) => `
+            <tr>
+                <td><strong>${t.name}</strong></td>
+                <td>${t.role}</td>
+                <td>${t.text.substring(0, 50)}${t.text.length > 50 ? '...' : ''}</td>
+                <td style="color: var(--accent);">${t.stars}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline" onclick="editTestimonial(${i})">✏️</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteTestimonial(${i})">🗑️</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function openTestimonialModal(index) {
+        const isEdit = typeof index === 'number';
+        document.getElementById('testimonialModalTitle').textContent = isEdit ? 'Editar Testimonio' : 'Nuevo Testimonio';
+        document.getElementById('tm-edit-index').value = isEdit ? index : -1;
+        if (isEdit) {
+            const t = data.testimonials[index];
+            document.getElementById('tm-name').value = t.name;
+            document.getElementById('tm-role').value = t.role;
+            document.getElementById('tm-text').value = t.text;
+            document.getElementById('tm-stars').value = t.stars;
+        } else {
+            document.getElementById('tm-name').value = '';
+            document.getElementById('tm-role').value = '';
+            document.getElementById('tm-text').value = '';
+            document.getElementById('tm-stars').value = '★★★★★';
+        }
+        document.getElementById('testimonialModal').classList.add('open');
+    }
+
+    function editTestimonial(index) { openTestimonialModal(index); }
+
+    function saveTestimonial() {
+        const name = document.getElementById('tm-name').value.trim();
+        const role = document.getElementById('tm-role').value.trim();
+        const text = document.getElementById('tm-text').value.trim();
+        const stars = document.getElementById('tm-stars').value;
+        if (!name || !text) { showToast('Nombre y testimonio son obligatorios', true); return; }
+        const testimonial = { name, role, text, stars, avatar: name.charAt(0).toUpperCase() };
+        const index = parseInt(document.getElementById('tm-edit-index').value);
+        if (index >= 0) { data.testimonials[index] = testimonial; }
+        else { data.testimonials = data.testimonials || []; data.testimonials.push(testimonial); }
+        saveData();
+        renderTestimonialsTable();
+        closeModal('testimonialModal');
+    }
+
+    async function deleteTestimonial(index) {
+        if (await showConfirm('🗑️', 'Eliminar Testimonio', `¿Eliminar testimonio de "${data.testimonials[index].name}"?`, { confirmText: 'Eliminar' })) {
+            data.testimonials.splice(index, 1);
+            saveData();
+            renderTestimonialsTable();
+        }
+    }
+
+    // ══════════════════════════════════════════════
+    //  STYLE
+    // ══════════════════════════════════════════════
+
+    function saveStyle() {
+        data.style = {
+            primary: document.getElementById('style-primary').value,
+            accent: document.getElementById('style-accent').value,
+            bg: document.getElementById('style-bg').value,
+            text: document.getElementById('style-text').value
+        };
+        saveData();
+    }
+
+    function resetStyle() {
+        document.getElementById('style-primary').value = '#4a7c59';
+        document.getElementById('style-accent').value = '#d4a574';
+        document.getElementById('style-bg').value = '#faf8f5';
+        document.getElementById('style-text').value = '#2c2c2c';
+        data.style = { primary: '#4a7c59', accent: '#d4a574', bg: '#faf8f5', text: '#2c2c2c' };
+        saveData();
+    }
+
+    const PRESETS = {
+        garden: { primary: '#4a7c59', accent: '#d4a574', bg: '#faf8f5', text: '#2c2c2c' },
+        rose: { primary: '#c2185b', accent: '#f48fb1', bg: '#fff5f5', text: '#2c2c2c' },
+        ocean: { primary: '#0277bd', accent: '#4fc3f7', bg: '#f5f9fc', text: '#2c2c2c' },
+        sunset: { primary: '#e65100', accent: '#ffb74d', bg: '#fff8f0', text: '#2c2c2c' },
+        lavender: { primary: '#7b1fa2', accent: '#ce93d8', bg: '#f8f0fc', text: '#2c2c2c' },
+        earth: { primary: '#5d4037', accent: '#a1887f', bg: '#f5f0eb', text: '#2c2c2c' }
+    };
+
+    function applyPreset(name) {
+        const preset = PRESETS[name];
+        document.getElementById('style-primary').value = preset.primary;
+        document.getElementById('style-accent').value = preset.accent;
+        document.getElementById('style-bg').value = preset.bg;
+        document.getElementById('style-text').value = preset.text;
+        saveStyle();
+    }
+
+    // ══════════════════════════════════════════════
+    //  MODALS & TOAST
+    // ══════════════════════════════════════════════
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', e => {
+            if (e.target === overlay) overlay.classList.remove('open');
+        });
+    });
+
+    function showToast(msg, isError) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.className = 'toast show' + (isError ? ' error' : '');
+        setTimeout(() => toast.className = 'toast', 3000);
+    }
+
+    // ══════════════════════════════════════════════
+    //  MODAL CONFIRM (replaces native confirm())
+    // ══════════════════════════════════════════════
+
+    let _confirmResolve = null;
+    function showConfirm(icon, title, msg, opts = {}) {
+        return new Promise(resolve => {
+            _confirmResolve = resolve;
+            document.getElementById('confirmIcon').textContent = icon || '⚠️';
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMsg').textContent = msg;
+            const okBtn = document.getElementById('confirmOkBtn');
+            okBtn.textContent = opts.confirmText || 'Eliminar';
+            okBtn.className = 'modal-alert-btn primary' + (opts.danger !== false ? ' danger' : '');
+            document.getElementById('confirmModal').classList.add('open');
+        });
+    }
+    function resolveConfirm(result) {
+        document.getElementById('confirmModal').classList.remove('open');
+        if (_confirmResolve) { _confirmResolve(result); _confirmResolve = null; }
+    }
+    document.getElementById('confirmModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('confirmModal')) resolveConfirm(false);
+    });
+
+    // ══════════════════════════════════════════════
+    //  EXPORT / IMPORT / RESET
+    // ══════════════════════════════════════════════
+
+    document.getElementById('exportBtn').addEventListener('click', e => {
+        e.preventDefault();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `flores-arte-backup-${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Datos exportados correctamente 📁');
+    });
+
+    document.getElementById('importBtn').addEventListener('click', e => {
+        e.preventDefault();
+        document.getElementById('importFileInput').click();
+    });
+
+    document.getElementById('importFileInput').addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async ev => {
+            try {
+                const imported = JSON.parse(ev.target.result);
+                // Save to server
+                try {
+                    await fetch('/api/data', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(imported)
+                    });
+                } catch { localStorage.setItem('floresArteData', JSON.stringify(imported)); }
+                await loadData();
+                renderAll();
+                showToast('Datos importados correctamente ✅');
+            } catch { showToast('Error al importar: archivo no válido', true); }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', async e => {
+        e.preventDefault();
+        if (await showConfirm('⚠️', 'Restaurar Valores', '¿Estás seguro? Se borrarán todos los cambios y se restaurarán los valores por defecto.', { confirmText: 'Restaurar' })) {
+            // Save defaults to server
+            try {
+                await fetch('/api/data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(DEFAULT_DATA)
+                });
+            } catch { localStorage.removeItem('floresArteData'); }
+            data = { ...DEFAULT_DATA };
+            renderAll();
+            showToast('Valores restaurados por defecto 🔄');
+        }
+    });
+
+    // ══════════════════════════════════════════════
+    //  LOGO UPLOAD
+    // ══════════════════════════════════════════════
+
+    function setupLogoUpload() {
+        const area = document.getElementById('logoUploadArea');
+        const input = document.getElementById('logoFileInput');
+        
+        // Show existing logo
+        if (data.logoImage) {
+            area.classList.add('has-image');
+            area.innerHTML = `<input type="file" id="logoFileInput" accept="image/*"><img src="${data.logoImage}" alt="Logo"><button class="remove-image" onclick="event.stopPropagation(); removeLogo()">×</button>`;
+        }
+
+        area.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-image')) return;
+            document.getElementById('logoFileInput').click();
+        });
+
+        document.getElementById('logoFileInput').addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('La imagen no puede superar 2MB', true); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+                data.logoImage = ev.target.result;
+                updateLogoPreview();
+                showToast('Logo cargado. Haz clic en Guardar para aplicar.');
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function updateLogoPreview() {
+        const area = document.getElementById('logoUploadArea');
+        if (data.logoImage) {
+            area.classList.add('has-image');
+            area.innerHTML = `<input type="file" id="logoFileInput" accept="image/*"><img src="${data.logoImage}" alt="Logo"><button class="remove-image" onclick="event.stopPropagation(); removeLogo()">×</button>`;
+        } else {
+            area.classList.remove('has-image');
+            area.innerHTML = `<input type="file" id="logoFileInput" accept="image/*"><div class="upload-icon">📷</div><div class="upload-text">Haz clic para subir tu logo</div><div class="upload-hint">PNG, JPG o SVG (máx. 2MB)</div>`;
+        }
+        setupLogoUpload();
+    }
+
+    function saveLogo() {
+        saveData();
+    }
+
+    function removeLogo() {
+        data.logoImage = null;
+        updateLogoPreview();
+        saveData();
+    }
+
+    // ══════════════════════════════════════════════
+    //  INIT
+    // ══════════════════════════════════════════════
+
+    // ══════════════════════════════════════════════
+    //  PROMOTIONS PANEL
+    // ══════════════════════════════════════════════
+
+    function loadPromoForm() {
+        const promo = (data.promotions || [])[0] || {};
+        document.getElementById('promo-title').value = promo.title || '';
+        document.getElementById('promo-desc').value = promo.description || '';
+        document.getElementById('promo-badge').value = promo.badge || '🔥 Oferta Especial';
+        document.getElementById('promo-active').checked = promo.active || false;
+        updatePromoPreview();
+    }
+
+    function updatePromoPreview() {
+        const title = document.getElementById('promo-title').value;
+        const desc = document.getElementById('promo-desc').value;
+        const badge = document.getElementById('promo-badge').value;
+        const active = document.getElementById('promo-active').checked;
+        const preview = document.getElementById('promoPreview');
+        if (title || desc) {
+            preview.style.display = 'block';
+            document.getElementById('promoPreviewBadge').textContent = badge;
+            document.getElementById('promoPreviewTitle').textContent = title;
+            document.getElementById('promoPreviewDesc').textContent = desc;
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+
+    ['promo-title', 'promo-desc', 'promo-badge', 'promo-active'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updatePromoPreview);
+        if (el) el.addEventListener('change', updatePromoPreview);
+    });
+
+    function savePromo() {
+        const promo = {
+            title: document.getElementById('promo-title').value.trim(),
+            description: document.getElementById('promo-desc').value.trim(),
+            badge: document.getElementById('promo-badge').value.trim() || '🔥 Oferta Especial',
+            active: document.getElementById('promo-active').checked
+        };
+        data.promotions = [promo];
+        saveData();
+        updatePromoPreview();
+    }
+
+    // ══════════════════════════════════════════════
+    //  ORDER HISTORY PANEL
+    // ══════════════════════════════════════════════
+
+    async function getOrders() {
+        try {
+            const res = await fetch('/api/orders');
+            if (res.ok) return await res.json();
+        } catch {}
+        try { return JSON.parse(localStorage.getItem('floresArteOrders') || '[]'); } catch { return []; }
+    }
+
+    async function renderOrdersTable() {
+        const orders = await getOrders();
+        const tbody = document.getElementById('ordersTable');
+        const noMsg = document.getElementById('noOrdersMsg');
+        if (orders.length === 0) {
+            tbody.innerHTML = '';
+            noMsg.style.display = 'block';
+            return;
+        }
+        noMsg.style.display = 'none';
+        tbody.innerHTML = orders.map((o, i) => {
+            const statusColors = { pending: 'var(--warning)', delivered: 'var(--success)', cancelled: 'var(--danger)' };
+            const statusLabels = { pending: '⏳ Pendiente', delivered: '✅ Entregado', cancelled: '❌ Cancelado' };
+            return `<tr>
+                <td><strong>#${o.number || (i+1)}</strong></td>
+                <td>${o.date || '-'}</td>
+                <td>${o.client || '-'}</td>
+                <td>${o.phone || '-'}</td>
+                <td>${o.items || '-'}</td>
+                <td><strong>${o.total || '-'}</strong></td>
+                <td><span style="padding:0.2rem 0.6rem;border-radius:50px;font-size:0.75rem;font-weight:700;background:${statusColors[o.status] || 'var(--border)'};color:white;">${statusLabels[o.status] || o.status || 'Pendiente'}</span></td>
+                <td>
+                    <button class="btn btn-sm btn-outline" onclick="updateOrderStatus(${i}, 'delivered')">✅</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteOrder(${i})">🗑️</button>
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    async function saveOrder(orderData) {
+        const orders = await getOrders();
+        orders.unshift(orderData);
+        try {
+            await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orders)
+            });
+        } catch {
+            localStorage.setItem('floresArteOrders', JSON.stringify(orders));
+        }
+        incrementAnalytics('ordersSent');
+    }
+
+    async function updateOrderStatus(index, status) {
+        const orders = await getOrders();
+        if (orders[index]) {
+            orders[index].status = status;
+            try {
+                await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orders)
+                });
+            } catch { localStorage.setItem('floresArteOrders', JSON.stringify(orders)); }
+            renderOrdersTable();
+            showToast('Estado actualizado ✅');
+        }
+    }
+
+    async function deleteOrder(index) {
+        if (!await showConfirm('🗑️', 'Eliminar Pedido', '¿Eliminar este pedido?', { confirmText: 'Eliminar' })) return;
+        const orders = await getOrders();
+        orders.splice(index, 1);
+        try {
+            await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orders)
+            });
+        } catch { localStorage.setItem('floresArteOrders', JSON.stringify(orders)); }
+        renderOrdersTable();
+        showToast('Pedido eliminado 🗑️');
+    }
+
+    async function clearOrderHistory() {
+        if (!await showConfirm('🗑️', 'Limpiar Historial', '¿Eliminar todo el historial de pedidos?', { confirmText: 'Eliminar todo' })) return;
+        try {
+            await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: '[]'
+            });
+        } catch { localStorage.removeItem('floresArteOrders'); }
+        renderOrdersTable();
+        showToast('Historial limpiado 🗑️');
+    }
+
+    // ══════════════════════════════════════════════
+    //  ANALYTICS PANEL
+    // ══════════════════════════════════════════════
+
+    async function getAnalytics() {
+        try {
+            const res = await fetch('/api/analytics');
+            if (res.ok) return await res.json();
+        } catch {}
+        try { return JSON.parse(localStorage.getItem('floresArteAnalytics') || '{}'); } catch { return {}; }
+    }
+
+    async function incrementAnalytics(key) {
+        const a = await getAnalytics();
+        a[key] = (a[key] || 0) + 1;
+        a.lastUpdate = new Date().toLocaleString('es-MX');
+        try {
+            await fetch('/api/analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(a)
+            });
+        } catch { localStorage.setItem('floresArteAnalytics', JSON.stringify(a)); }
+    }
+
+    async function renderAnalytics() {
+        const a = await getAnalytics();
+        document.getElementById('analyticsVisits').textContent = a.visits || 0;
+        document.getElementById('analyticsOrders').textContent = a.ordersSent || 0;
+        document.getElementById('analyticsWhatsApp').textContent = a.whatsappClicks || 0;
+        document.getElementById('analyticsLoyalty').textContent = a.loyaltyBadges || 0;
+        document.getElementById('analyticsLastUpdate').textContent = a.lastUpdate || 'Sin datos aún';
+    }
+
+    async function resetAnalytics() {
+        if (!await showConfirm('🗑️', 'Limpiar Analytics', '¿Limpiar todos los contadores de analytics?', { confirmText: 'Limpiar' })) return;
+        try {
+            await fetch('/api/analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: '{}'
+            });
+        } catch { localStorage.removeItem('floresArteAnalytics'); }
+        renderAnalytics();
+        showToast('Analytics limpiados 🗑️');
+    }
+
+    // ══════════════════════════════════════════════
+    //  GALLERY MANAGEMENT
+    // ══════════════════════════════════════════════
+
+    const GALLERY_EMOJIS = ['🌹','💐','🌸','🌻','🌺','🪷','🌷','🪻','🌼','🏵️','🌿','🍃','☘️','🌱','🪴','🎋','💐','🦋','☀️','🌙'];
+    const GALLERY_COLORS = ['#fce4ec','#f3e5f5','#e8f5e9','#fff8e1','#e0f2f1','#e3f2fd','#fff3e0','#e8eaf6','#f5f5f5','#efebe9'];
+
+    function renderGalleryAdmin() {
+        const grid = document.getElementById('galleryAdminGrid');
+        const noMsg = document.getElementById('noGalleryMsg');
+        const gallery = data.gallery || [];
+
+        if (gallery.length === 0) {
+            grid.innerHTML = '';
+            noMsg.style.display = 'block';
+            return;
+        }
+        noMsg.style.display = 'none';
+
+        grid.innerHTML = gallery.map((item, i) => `
+            <div style="background:${item.color || '#e8f5e9'};border-radius:12px;overflow:hidden;box-shadow:var(--shadow);position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:3rem;">
+                ${item.image ? `<img src="${item.image}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;">` : item.emoji}
+                <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);color:white;padding:0.6rem;">
+                    <div style="font-size:0.8rem;font-weight:700;">${item.title || 'Sin título'}</div>
+                    <div style="font-size:0.7rem;opacity:0.8;">${item.image ? '📷 Foto' : '😊 Emoji'}</div>
+                </div>
+                <div style="position:absolute;top:0.4rem;right:0.4rem;display:flex;gap:0.3rem;">
+                    <button onclick="editGalleryItem(${i})" style="width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;" title="Editar">✏️</button>
+                    <button onclick="deleteGalleryItem(${i})" style="width:28px;height:28px;border-radius:50%;border:none;background:rgba(231,76,60,0.9);color:white;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;" title="Eliminar">✕</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function addGalleryItem() {
+        if (!data.gallery) data.gallery = [];
+        const newItem = {
+            emoji: GALLERY_EMOJIS[Math.floor(Math.random() * GALLERY_EMOJIS.length)],
+            title: 'Nueva Foto',
+            color: GALLERY_COLORS[Math.floor(Math.random() * GALLERY_COLORS.length)],
+            image: null
+        };
+        data.gallery.push(newItem);
+        renderGalleryAdmin();
+        openGalleryModal(data.gallery.length - 1);
+    }
+
+    function editGalleryItem(index) {
+        openGalleryModal(index);
+    }
+
+    async function deleteGalleryItem(index) {
+        if (!await showConfirm('🗑️', 'Eliminar Foto', '¿Eliminar esta foto de la galería?', { confirmText: 'Eliminar' })) return;
+        data.gallery.splice(index, 1);
+        saveData();
+        renderGalleryAdmin();
+        showToast('Foto eliminada 🗑️');
+    }
+
+    function openGalleryModal(index) {
+        const item = data.gallery[index];
+        if (!item) return;
+
+        // Create modal if not exists
+        let modal = document.getElementById('galleryModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'galleryModal';
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal" style="max-width:500px;">
+                    <div class="modal-header">
+                        <h3 id="galleryModalTitle">Editar Foto</h3>
+                        <button class="modal-close" onclick="closeGalleryModal()">&times;</button>
+                    </div>
+                    <div style="padding:1.5rem;">
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" id="gallery-item-title" placeholder="Nombre de la foto">
+                        </div>
+                        <div class="form-group">
+                            <label>Foto del Producto (base64, máx 2MB)</label>
+                            <div class="image-upload-area" id="galleryUploadArea" style="aspect-ratio:16/9;">
+                                <input type="file" id="galleryFileInput" accept="image/*">
+                                <div class="upload-icon">📷</div>
+                                <div class="upload-text">Haz clic para subir una foto</div>
+                                <div class="upload-hint">PNG, JPG (máx. 2MB)</div>
+                            </div>
+                            <button class="btn btn-sm btn-danger" onclick="removeGalleryImage()" id="galleryRemoveBtn" style="display:none;margin-top:0.5rem;">🗑️ Quitar imagen</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Emoji alternativo (si no hay foto)</label>
+                            <div id="galleryEmojiPicker" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Color de fondo</label>
+                            <div id="galleryColorPicker" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+                        </div>
+                        <div style="display:flex;gap:0.8rem;margin-top:1.5rem;">
+                            <button class="btn btn-primary" onclick="saveGalleryItem(${index})">💾 Guardar</button>
+                            <button class="btn btn-outline" onclick="closeGalleryModal()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', e => { if (e.target === modal) closeGalleryModal(); });
+        }
+
+        // Fill form
+        document.getElementById('gallery-item-title').value = item.title || '';
+        document.getElementById('galleryModalTitle').textContent = `Editar: ${item.title || 'Foto'}`;
+
+        // Render emoji picker
+        const emojiPicker = document.getElementById('galleryEmojiPicker');
+        emojiPicker.innerHTML = GALLERY_EMOJIS.map(e => `
+            <button type="button" onclick="selectGalleryEmoji('${e}', this)" style="width:36px;height:36px;border:2px solid ${item.emoji === e ? 'var(--primary)' : 'var(--border)'};border-radius:8px;background:white;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s;">${e}</button>
+        `).join('');
+
+        // Render color picker
+        const colorPicker = document.getElementById('galleryColorPicker');
+        colorPicker.innerHTML = GALLERY_COLORS.map(c => `
+            <button type="button" onclick="selectGalleryColor('${c}', this)" style="width:32px;height:32px;border:2px solid ${item.color === c ? 'var(--primary)' : 'var(--border)'};border-radius:50%;background:${c};cursor:pointer;transition:0.2s;"></button>
+        `).join('');
+
+        // Setup upload
+        setupGalleryUpload(index);
+
+        // Show modal
+        modal.classList.add('open');
+        window._galleryEditIndex = index;
+    }
+
+    function closeGalleryModal() {
+        const modal = document.getElementById('galleryModal');
+        if (modal) modal.classList.remove('open');
+    }
+
+    function setupGalleryUpload(index) {
+        const fileInput = document.getElementById('galleryFileInput');
+        const area = document.getElementById('galleryUploadArea');
+        const removeBtn = document.getElementById('galleryRemoveBtn');
+        const item = data.gallery[index];
+
+        // Update area preview
+        if (item && item.image) {
+            area.classList.add('has-image');
+            area.innerHTML = `<input type="file" id="galleryFileInput" accept="image/*"><img src="${item.image}" alt="Foto"><button class="remove-image" onclick="event.stopPropagation(); removeGalleryImage()">×</button>`;
+            removeBtn.style.display = 'inline-block';
+        } else {
+            area.classList.remove('has-image');
+            area.innerHTML = `<input type="file" id="galleryFileInput" accept="image/*"><div class="upload-icon">📷</div><div class="upload-text">Haz clic para subir una foto</div><div class="upload-hint">PNG, JPG (máx. 2MB)</div>`;
+            removeBtn.style.display = 'none';
+        }
+
+        // Re-bind events
+        const newInput = document.getElementById('galleryFileInput');
+        newInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('La imagen no puede superar 2MB', true); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+                data.gallery[index].image = ev.target.result;
+                setupGalleryUpload(index);
+                showToast('Foto cargada ✅');
+            };
+            reader.readAsDataURL(file);
+        });
+        area.onclick = () => newInput.click();
+    }
+
+    function removeGalleryImage() {
+        const index = window._galleryEditIndex;
+        if (data.gallery[index]) {
+            data.gallery[index].image = null;
+            setupGalleryUpload(index);
+            showToast('Imagen removida');
+        }
+    }
+
+    function selectGalleryEmoji(emoji, btn) {
+        const index = window._galleryEditIndex;
+        if (data.gallery[index]) {
+            data.gallery[index].emoji = emoji;
+            // Update UI
+            document.querySelectorAll('#galleryEmojiPicker button').forEach(b => b.style.borderColor = 'var(--border)');
+            btn.style.borderColor = 'var(--primary)';
+        }
+    }
+
+    function selectGalleryColor(color, btn) {
+        const index = window._galleryEditIndex;
+        if (data.gallery[index]) {
+            data.gallery[index].color = color;
+            document.querySelectorAll('#galleryColorPicker button').forEach(b => b.style.borderColor = 'var(--border)');
+            btn.style.borderColor = 'var(--primary)';
+        }
+    }
+
+    function saveGalleryItem(index) {
+        if (data.gallery[index]) {
+            data.gallery[index].title = document.getElementById('gallery-item-title').value.trim() || 'Sin título';
+            saveData();
+            renderGalleryAdmin();
+            closeGalleryModal();
+            showToast('Foto guardada ✅');
+        }
+    }
+
+    function renderAll() {
+        renderDashboard();
+        loadContentForms();
+        renderProductsTable();
+        renderServicesTable();
+        renderTestimonialsTable();
+        setupLogoUpload();
+        setupProductImageUpload();
+        loadPromoForm();
+        renderGalleryAdmin();
+        renderOrdersTable();
+        renderAnalytics();
+    }
+
+    loadData().then(() => renderAll());
+
+    // ══════════════════════════════════════════════
+    //  LOGIN SYSTEM
+    // ══════════════════════════════════════════════
+
+    const ADMIN_CREDENTIALS = [
+        { username: 'admin', password: 'flores2026', name: 'Administrador', role: 'admin' }
+    ];
+
+    // Check if already logged in this session
+    (function checkSession() {
+        const session = sessionStorage.getItem('floresArteAdminSession');
+        if (session) {
+            try {
+                const s = JSON.parse(session);
+                if (s.loggedIn && Date.now() - s.timestamp < 3600000) {
+                    document.getElementById('loginOverlay').classList.add('hidden');
+                    document.getElementById('adminLayout').style.display = '';
+                    return;
+                }
+            } catch {}
+        }
+        // Show login, hide admin
+        document.getElementById('loginOverlay').classList.remove('hidden');
+        document.getElementById('adminLayout').style.display = 'none';
+    })();
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        const user = document.getElementById('loginUser').value.trim();
+        const pass = document.getElementById('loginPass').value;
+        const btn = document.getElementById('loginBtn');
+        const errorEl = document.getElementById('loginError');
+
+        if (!user || !pass) {
+            errorEl.textContent = 'Ingresa usuario y contraseña';
+            errorEl.classList.add('show');
+            return false;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Verificando...';
+        errorEl.classList.remove('show');
+
+        let match = null;
+        try {
+            // Try server API first
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user, password: pass })
+            });
+            if (res.ok) {
+                const result = await res.json();
+                match = result.user;
+            }
+        } catch {}
+
+        // Fallback to hardcoded credentials
+        if (!match) {
+            match = ADMIN_CREDENTIALS.find(c => c.username === user && c.password === pass);
+        }
+
+        if (match) {
+            sessionStorage.setItem('floresArteAdminSession', JSON.stringify({
+                loggedIn: true,
+                user: match.username,
+                name: match.name || match.username,
+                role: match.role || 'admin',
+                timestamp: Date.now()
+            }));
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('adminLayout').style.display = '';
+        } else {
+            errorEl.textContent = 'Usuario o contraseña incorrectos';
+            errorEl.classList.add('show');
+            document.getElementById('loginPass').value = '';
+            document.getElementById('loginPass').focus();
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Iniciar Sesión 🌸';
+        return false;
+    }
+
+    function adminLogout() {
+        sessionStorage.removeItem('floresArteAdminSession');
+        location.reload();
+    }
+    </script>
+</body>
+</html>

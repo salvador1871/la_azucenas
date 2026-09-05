@@ -1,0 +1,15 @@
+{
+    "name": "flores-y-arte",
+    "version": "1.0.0",
+    "description": "Floristería Flores & Arte - Sitio web con panel administrativo",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "keywords": ["floristeria", "floristería", "flores", "website"],
+    "author": "Flores & Arte",
+    "license": "ISC"
+}

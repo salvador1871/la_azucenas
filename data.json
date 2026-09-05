@@ -1,0 +1,191 @@
+{
+  "navLogo": "Flores & Arte",
+  "logoImage": null,
+  "heroTitle": "Donde cada flor cuenta una <em>historia</em>",
+  "heroDesc": "Creamos arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables. Con más de 15 años de experiencia, cada pétalo es elegido con amor.",
+  "heroEmoji": "🌺",
+  "productsTag": "Nuestra Colección",
+  "productsTitle": "Arreglos Florales Exclusivos",
+  "productsDesc": "Descubre nuestras creaciones más populares, diseñadas para cada ocasión y emoción.",
+  "products": [
+    {
+      "name": "Ramo de Rosas Rojas",
+      "desc": "12 rosas rojas frescas con eucalipto y envoltura de kraft.",
+      "price": "$899",
+      "tag": "Más Vendido",
+      "emoji": "🌹",
+      "color": "#fce4ec"
+    },
+    {
+      "name": "Bouquet Primaveral",
+      "desc": "Mezcla vibrante de tulipanes, gerberas y ranúnculos de temporada.",
+      "price": "$1,250",
+      "tag": "Temporada",
+      "emoji": "💐",
+      "color": "#e8f5e9"
+    },
+    {
+      "name": "Caja de Orquídeas",
+      "desc": "Elegante orquídea phalaenopsis en caja de terciopelo negro.",
+      "price": "$1,800",
+      "tag": "Premium",
+      "emoji": "🪻",
+      "color": "#f3e5f5"
+    },
+    {
+      "name": "Arreglo Zen",
+      "desc": "Arreglo minimalista con flores blancas, bambú y piedras pulidas.",
+      "price": "$950",
+      "tag": "Minimalista",
+      "emoji": "🎋",
+      "color": "#e0f2f1"
+    },
+    {
+      "name": "Girasoles de Sol",
+      "desc": "Ramo alegre de girasoles con accesorias naturales.",
+      "price": "$750",
+      "tag": "Alegría",
+      "emoji": "🌻",
+      "color": "#fff8e1"
+    },
+    {
+      "name": "Cesta Gourmet Floral",
+      "desc": "Cesta con flores mixtas, chocolate artesanal y vino espumoso.",
+      "price": "$2,200",
+      "tag": "Regalo",
+      "emoji": "🧺",
+      "color": "#fff3e0"
+    }
+  ],
+  "aboutTag": "Sobre Nosotros",
+  "aboutTitle": "Pasión por las flores desde 2008",
+  "aboutP1": "Somos una florería familiar con más de 15 años de trayectoria creando arreglos que enamoran. Nuestro equipo de expertos floristas selecciona cada flor cuidadosamente para garantizar frescura y belleza incomparables.",
+  "aboutP2": "Creemos que las flores son el lenguaje universal del amor, la alegría y la gratitud. Por eso, nos esforzamos en transformar cada bouquet en una obra de arte.",
+  "aboutEmoji": "🌻",
+  "aboutImage": null,
+  "servicesTag": "Servicios",
+  "servicesTitle": "Lo que ofrecemos",
+  "servicesDesc": "Más que flores, creamos experiencias inolvidables para cada ocasión especial.",
+  "services": [
+    {
+      "icon": "💒",
+      "title": "Bodas & Eventos",
+      "desc": "Decoración floral completa para bodas, quinceañeras y eventos corporativos."
+    },
+    {
+      "icon": "🚚",
+      "title": "Entrega a Domicilio",
+      "desc": "Envío el mismo día en la ciudad. Tus flores frescas en horas."
+    },
+    {
+      "icon": "📦",
+      "title": "Suscripción Floral",
+      "desc": "Recibe flores frescas cada semana o mes en la comodidad de tu hogar."
+    },
+    {
+      "icon": "🎨",
+      "title": "Diseño Personalizado",
+      "desc": "Creamos arreglos únicos según tu visión, colores y preferencias."
+    }
+  ],
+  "testimonialsTag": "Testimonios",
+  "testimonialsTitle": "Lo que dicen nuestros clientes",
+  "testimonialsDesc": "Miles de clientes satisfechos confían en nosotros para sus momentos más especiales.",
+  "testimonials": [
+    {
+      "text": "El ramo de mi boda fue absolutamente espectacular. Todos los invitados preguntaron por la florería. ¡Gracias por hacer mi día aún más mágico!",
+      "name": "María García",
+      "role": "Novia",
+      "stars": "★★★★★",
+      "avatar": "M"
+    },
+    {
+      "text": "Llevo 6 meses con la suscripción y cada entrega es una sorpresa más hermosa que la anterior. Las flores duran muchísimo y el diseño es increíble.",
+      "name": "Carlos López",
+      "role": "Cliente recurrente",
+      "stars": "★★★★★",
+      "avatar": "C"
+    },
+    {
+      "text": "Contraté su servicio para el evento corporativo de mi empresa y el resultado superó todas las expectativas. Profesionales de principio a fin.",
+      "name": "Ana Martínez",
+      "role": "Directora de Eventos",
+      "stars": "★★★★★",
+      "avatar": "A"
+    }
+  ],
+  "contactTag": "Contacto",
+  "contactTitle": "Estamos para servirte",
+  "contactDesc": "¿Tienes una idea en mente? ¡Hablemos y la hacemos realidad!",
+  "contactAddress": "Calle de las Flores 123, Centro Histórico, Ciudad de México",
+  "contactPhone": "+52 (55) 1234-5678",
+  "contactEmail": "hola@floresyarte.com",
+  "contactHours": "Lun - Sáb: 8:00 AM - 8:00 PM | Dom: 9:00 AM - 3:00 PM",
+  "whatsappNumber": "5215512345678",
+  "footerBrand": "Flores & Arte",
+  "footerDesc": "Transformamos la naturaleza en arte. Cada arreglo es una obra única creada con pasión y dedicación para making tus momentos más especiales aún más memorables.",
+  "footerCopy": "© 2026 Flores & Arte. Todos los derechos reservados. Hecho con 💚",
+  "promotions": [],
+  "gallery": [
+    {
+      "emoji": "🌹",
+      "title": "Rosas Clásicas",
+      "color": "#fce4ec",
+      "image": null
+    },
+    {
+      "emoji": "💐",
+      "title": "Bouquet de Bodas",
+      "color": "#f3e5f5",
+      "image": null
+    },
+    {
+      "emoji": "🌸",
+      "title": "Flores de Cerezo",
+      "color": "#fce4ec",
+      "image": null
+    },
+    {
+      "emoji": "🌻",
+      "title": "Girasoles de Verano",
+      "color": "#fff8e1",
+      "image": null
+    },
+    {
+      "emoji": "🌺",
+      "title": "Arreglo Tropical",
+      "color": "#e0f2f1",
+      "image": null
+    },
+    {
+      "emoji": "🪷",
+      "title": "Loto Zen",
+      "color": "#e8f5e9",
+      "image": null
+    },
+    {
+      "emoji": "🌷",
+      "title": "Tulipanes Holandeses",
+      "color": "#fce4ec",
+      "image": null
+    },
+    {
+      "emoji": "🪻",
+      "title": "Orquídeas Exóticas",
+      "color": "#f3e5f5",
+      "image": null
+    },
+    {
+      "emoji": "🌼",
+      "title": "Margaritas Frescas",
+      "color": "#fff8e1",
+      "image": null
+    }
+  ],
+  "style": {
+    "primary": "#4a7c59",
+    "accent": "#d4a574",
+    "bg": "#faf8f5",
+    "text": "#2c2c2c"
+  }
+}
