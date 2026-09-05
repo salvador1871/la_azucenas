@@ -11,7 +11,7 @@
     {
       "name": "Ramo de Rosas Rojas",
       "desc": "12 rosas rojas frescas con eucalipto y envoltura de kraft.",
-      "price": "$899",
+      "price": "$50.00",
       "tag": "Más Vendido",
       "emoji": "🌹",
       "color": "#fce4ec"
@@ -19,7 +19,7 @@
     {
       "name": "Bouquet Primaveral",
       "desc": "Mezcla vibrante de tulipanes, gerberas y ranúnculos de temporada.",
-      "price": "$1,250",
+      "price": "$65.00",
       "tag": "Temporada",
       "emoji": "💐",
       "color": "#e8f5e9"
@@ -27,7 +27,7 @@
     {
       "name": "Caja de Orquídeas",
       "desc": "Elegante orquídea phalaenopsis en caja de terciopelo negro.",
-      "price": "$1,800",
+      "price": "$125.00",
       "tag": "Premium",
       "emoji": "🪻",
       "color": "#f3e5f5"
@@ -35,7 +35,7 @@
     {
       "name": "Arreglo Zen",
       "desc": "Arreglo minimalista con flores blancas, bambú y piedras pulidas.",
-      "price": "$950",
+      "price": "$100.00",
       "tag": "Minimalista",
       "emoji": "🎋",
       "color": "#e0f2f1"
@@ -43,7 +43,7 @@
     {
       "name": "Girasoles de Sol",
       "desc": "Ramo alegre de girasoles con accesorias naturales.",
-      "price": "$750",
+      "price": "$65.00",
       "tag": "Alegría",
       "emoji": "🌻",
       "color": "#fff8e1"
@@ -51,7 +51,7 @@
     {
       "name": "Cesta Gourmet Floral",
       "desc": "Cesta con flores mixtas, chocolate artesanal y vino espumoso.",
-      "price": "$2,200",
+      "price": "$78.00",
       "tag": "Regalo",
       "emoji": "🧺",
       "color": "#fff3e0"
@@ -117,11 +117,11 @@
   "contactTag": "Contacto",
   "contactTitle": "Estamos para servirte",
   "contactDesc": "¿Tienes una idea en mente? ¡Hablemos y la hacemos realidad!",
-  "contactAddress": "Calle de las Flores 123, Centro Histórico, Ciudad de México",
-  "contactPhone": "+52 (55) 1234-5678",
+  "contactAddress": "Santa Ana",
+  "contactPhone": "+00 (00) 00-00-00-00",
   "contactEmail": "hola@floresyarte.com",
   "contactHours": "Lun - Sáb: 8:00 AM - 8:00 PM | Dom: 9:00 AM - 3:00 PM",
-  "whatsappNumber": "5215512345678",
+  "whatsappNumber": " 00-00-00-00",
   "footerBrand": "Flores & Arte",
   "footerDesc": "Transformamos la naturaleza en arte. Cada arreglo es una obra única creada con pasión y dedicación para making tus momentos más especiales aún más memorables.",
   "footerCopy": "© 2026 Flores & Arte. Todos los derechos reservados. Hecho con 💚",
