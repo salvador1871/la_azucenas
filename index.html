@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flores & Arte - Floristería | Arreglos Florales Exclusivos</title>
-    <meta name="description" content="Flores & Arte - Tu floristería de confianza. Arreglos florales exclusivos, ramos de boda, entrega a domicilio y suscripciones florales en Ciudad de México.">
-    <meta name="keywords" content="floristería, flores, arreglos florales, ramos, boda, entrega domicilio, CDMX, flores frescas">
+    <meta name="description" content="Flores & Arte - Tu floristería de confianza. Arreglos florales exclusivos, ramos de boda, entrega a domicilio y suscripciones florales.">
+    <meta name="keywords" content="floristería, flores, arreglos florales, ramos, boda, entrega domicilio, flores frescas">
     <meta name="author" content="Flores & Arte">
     <meta property="og:title" content="Flores & Arte - Floristería">
     <meta property="og:description" content="Arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables.">
@@ -129,6 +129,27 @@
             75%  { transform: translate(3vw, 74vh) rotate(270deg); }
             92%  { opacity: var(--p-op, 0.6); }
             100% { transform: translate(-2vw, 110vh) rotate(360deg); opacity: 0; }
+        }
+        /* ── FALLING PETALS (section decoration) ── */
+        .section-falling-petal {
+            position: absolute;
+            top: -30px;
+            line-height: 1;
+            pointer-events: none;
+            z-index: 1;
+            animation-name: sectionPetalFall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        @keyframes sectionPetalFall {
+            0%    { transform: translate(0, -30px) rotate(0deg); opacity: 0; }
+            6%    { opacity: var(--p-op, 0.5); }
+            20%   { transform: translate(18px, 20%) rotate(70deg); }
+            40%   { transform: translate(-14px, 42%) rotate(150deg); }
+            60%   { transform: translate(12px, 62%) rotate(220deg); }
+            80%   { transform: translate(-10px, 82%) rotate(300deg); }
+            94%   { opacity: var(--p-op, 0.5); }
+            100%  { transform: translate(6px, calc(100% + 120px)) rotate(360deg); opacity: 0; }
         }
         .hero-logo-chip {
             position: relative;
@@ -445,7 +466,7 @@
         }
 
         /* ── ABOUT ── */
-        .about-section { background: var(--bg-card); }
+        .about-section { background: var(--bg-card); position: relative; overflow: hidden; padding-bottom: 130px; }
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1241,7 +1262,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .hero-logo, .hero-logo-chip, .hero-logo-chip::after, #footerLogo, #navLogoIcon, .petal { animation: none !important; }
-            .falling-petal { display: none; }
+            .falling-petal, .section-falling-petal { display: none; }
         }
 
         /* ── SCROLL REVEAL ── */
@@ -1288,7 +1309,7 @@
         .floating-order.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
         /* ── PHOTO GALLERY CAROUSEL ── */
-        .gallery-section { padding: 6rem 2rem; background: var(--bg); overflow: hidden; }
+        .gallery-section { padding: 6rem 2rem 8.5rem; background: var(--bg); overflow: hidden; position: relative; }
         .gallery-carousel-wrapper {
             max-width: 1200px;
             margin: 0 auto;
@@ -1828,7 +1849,7 @@
     </section>
 
     <!-- PRODUCTS -->
-    <section id="productos">
+    <section id="productos" style="position:relative; overflow:hidden; padding-bottom: 130px;">
         <div class="section-container">
             <div class="section-header">
                 <span class="section-tag editable" data-key="products-tag">Nuestra Colección</span>
@@ -1962,7 +1983,7 @@
                         <div class="contact-icon">📍</div>
                         <div>
                             <strong>Dirección</strong>
-                            <p class="editable" data-key="contact-address">Calle de las Flores 123, Centro Histórico, Ciudad de México</p>
+                            <p class="editable" data-key="contact-address">Calle de las Flores 123, Centro Histórico</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -2056,7 +2077,7 @@
                 <ul class="footer-links">
                     <li><a href="#">📞 +52 (55) 1234-5678</a></li>
                     <li><a href="#">✉️ hola@floresyarte.com</a></li>
-                    <li><a href="#">📍 CDMX, México</a></li>
+                    <li><a href="#">📍 Santa Ana</a></li>
                 </ul>
             </div>
         </div>
@@ -2323,7 +2344,7 @@
         contactTag: 'Contacto',
         contactTitle: 'Estamos para servirte',
         contactDesc: '¿Tienes una idea en mente? ¡Hablemos y la hacemos realidad!',
-        contactAddress: 'Calle de las Flores 123, Centro Histórico, Ciudad de México',
+        contactAddress: 'Calle de las Flores 123, Centro Histórico',
         contactPhone: '+52 (55) 1234-5678',
         contactEmail: 'hola@floresyarte.com',
         contactHours: 'Lun - Sáb: 8:00 AM - 8:00 PM | Dom: 9:00 AM - 3:00 PM',
@@ -2742,22 +2763,28 @@
         document.body.classList.remove('data-loading');
     });
 
-    // ── Falling rose petals in the hero ──
-    function setupFallingPetals() {
-        const hero = document.querySelector('.hero');
-        if (!hero || hero.querySelector('.falling-petal')) return;
-        const emojis = ['🌹', '🌸', '🌺', '🌷'];
-        for (let i = 0; i < 7; i++) {
+    // ── Falling rose petals ──
+    function addPetals(container, count, cls, speed) {
+        if (!container || container.querySelector('.' + cls)) return;
+        const emojis = ['🌹', '🌸', '🌺', '🌷', '🏵️', '💮'];
+        speed = speed || 1;
+        for (let i = 0; i < count; i++) {
             const p = document.createElement('span');
-            p.className = 'falling-petal';
+            p.className = cls;
             p.textContent = emojis[i % emojis.length];
             p.style.left = (5 + Math.random() * 90).toFixed(1) + '%';
-            p.style.fontSize = (14 + Math.random() * 16).toFixed(0) + 'px';
-            p.style.setProperty('--p-op', (0.35 + Math.random() * 0.35).toFixed(2));
-            p.style.animationDuration = (9 + Math.random() * 7).toFixed(1) + 's';
-            p.style.animationDelay = (-Math.random() * 16).toFixed(1) + 's';
-            hero.appendChild(p);
+            p.style.fontSize = (12 + Math.random() * 16).toFixed(0) + 'px';
+            p.style.setProperty('--p-op', (0.30 + Math.random() * 0.35).toFixed(2));
+            p.style.animationDuration = ((9 + Math.random() * 8) * speed).toFixed(1) + 's';
+            p.style.animationDelay = (-Math.random() * 20).toFixed(1) + 's';
+            container.appendChild(p);
         }
+    }
+    function setupFallingPetals() {
+        addPetals(document.querySelector('.hero'), 16, 'falling-petal', 1);
+        addPetals(document.getElementById('productos'), 14, 'section-falling-petal', 2.5);
+        addPetals(document.getElementById('nosotros'), 14, 'section-falling-petal', 2.5);
+        addPetals(document.getElementById('galeria'), 14, 'section-falling-petal', 2.5);
     }
 
     // ── Navbar scroll ──
@@ -3403,7 +3430,7 @@
     (function renderContactMap() {
         const mapEl = document.getElementById('contactMap');
         if (!mapEl) return;
-        const addr = data.contactAddress || 'Ciudad de Mexico';
+        const addr = data.contactAddress || 'Santa Ana';
         const encoded = encodeURIComponent(addr);
         mapEl.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encoded}&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy"></iframe>`;
     })();
