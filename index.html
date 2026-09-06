@@ -40,6 +40,7 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
+        body.data-loading * { transition: none !important; animation: none !important; }
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
@@ -74,7 +75,142 @@
             gap: 0.5rem;
         }
         .nav-logo span { font-size: 1.8rem; display: flex; align-items: center; }
-        .nav-logo img { width: 32px; height: 32px; object-fit: contain; border-radius: 6px; }
+        .rose-name {
+            background: linear-gradient(120deg, #8e0e00 0%, #c2185b 28%, #e91e63 50%, #ff8fab 75%, #c2185b 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: roseShimmer 6s ease-in-out infinite;
+            filter: drop-shadow(0 2px 8px rgba(233,30,99,0.35));
+        }
+        @keyframes roseShimmer {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+        .nav-logo img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            border-radius: 12px;
+            padding: 4px;
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        /* ── HERO LOGO (most prominent position) ── */
+        .hero-logo {
+            display: none;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 1.2rem;
+            animation: logoEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both, logoFloat 5s ease-in-out 1s infinite;
+        }
+        @keyframes logoEntrance {
+            from { opacity: 0; transform: scale(0.5) translateY(24px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        /* ── FALLING PETALS (hero decoration) ── */
+        .falling-petal {
+            position: absolute;
+            top: -8vh;
+            line-height: 1;
+            pointer-events: none;
+            z-index: 1;
+            animation-name: petalFall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        @keyframes petalFall {
+            0%   { transform: translate(0, -8vh) rotate(0deg); opacity: 0; }
+            8%   { opacity: var(--p-op, 0.6); }
+            25%  { transform: translate(4vw, 22vh) rotate(90deg); }
+            50%  { transform: translate(-3vw, 48vh) rotate(180deg); }
+            75%  { transform: translate(3vw, 74vh) rotate(270deg); }
+            92%  { opacity: var(--p-op, 0.6); }
+            100% { transform: translate(-2vw, 110vh) rotate(360deg); opacity: 0; }
+        }
+        .hero-logo-chip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 340px;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4ec 50%, #ffd6e2 100%);
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.55), 0 12px 35px rgba(233,30,99,0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            animation: logoBreath 3.5s ease-in-out infinite;
+        }
+        .hero-logo-chip::after {
+            content: '';
+            position: absolute;
+            top: -10%;
+            bottom: -10%;
+            left: -60%;
+            width: 45%;
+            background: linear-gradient(105deg, transparent, rgba(255,255,255,0.6), transparent);
+            transform: skewX(-20deg);
+            animation: shineSweep 4.5s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+        @keyframes logoBreath {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.55), 0 12px 35px rgba(233,30,99,0.2); }
+            50% { box-shadow: 0 0 0 6px rgba(255,255,255,0.75), 0 18px 50px rgba(233,30,99,0.42); }
+        }
+        @keyframes shineSweep {
+            0% { left: -60%; }
+            55%, 100% { left: 130%; }
+        }
+        @keyframes petalFloat {
+            0%, 100% { translate: 0 0; }
+            50% { translate: 0 -5px; }
+        }
+        @keyframes emojiGlow {
+            0%, 100% { filter: drop-shadow(0 0 2px rgba(233,30,99,0.2)); }
+            50% { filter: drop-shadow(0 0 9px rgba(233,30,99,0.5)); }
+        }
+        @keyframes footerBreath {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 8px 20px rgba(0,0,0,0.25); }
+            50% { box-shadow: 0 0 0 4px rgba(255,255,255,0.35), 0 12px 30px rgba(233,30,99,0.35); }
+        }
+        .hero-logo-chip img {
+            width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-logo:hover .hero-logo-chip { transform: scale(1.05); }
+        /* Rose petals inside the logo boxes */
+        .hero-logo-chip .petal, #footerLogo .petal {
+            position: absolute;
+            font-size: 24px;
+            line-height: 1;
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+            animation: petalFloat 5s ease-in-out infinite;
+        }
+        .hero-logo-chip .petal-1, #footerLogo .petal-1 { top: -6px; left: 8px; transform: rotate(-25deg); animation-delay: 0s; }
+        .hero-logo-chip .petal-2, #footerLogo .petal-2 { bottom: -8px; right: 6px; transform: rotate(20deg); animation-delay: 1.2s; }
+        .hero-logo-chip .petal-3 { top: 12px; right: 14px; font-size: 15px; opacity: 0.35; transform: rotate(15deg); animation-delay: 2.2s; }
+        .hero-logo-chip .petal-4 { bottom: 10px; left: 18px; font-size: 15px; opacity: 0.35; transform: rotate(-12deg); animation-delay: 0.7s; }
+        #footerLogo .petal { font-size: 15px; opacity: 0.45; }
+        #navLogoIcon { animation: logoFloat 4s ease-in-out infinite, emojiGlow 3s ease-in-out infinite; }
+        .nav-logo:hover img {
+            transform: scale(1.18) rotate(-4deg);
+            box-shadow: 0 8px 22px rgba(74,124,89,0.35);
+        }
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
         .nav-links { display: flex; gap: 2rem; list-style: none; }
         .nav-links a {
             text-decoration: none;
@@ -468,6 +604,29 @@
             margin-bottom: 3rem;
         }
         .footer-brand h3 { font-size: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        #footerLogo {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4ec 100%);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 8px 20px rgba(0,0,0,0.25);
+            overflow: hidden;
+            animation: logoFloat 5s ease-in-out infinite, footerBreath 4s ease-in-out infinite;
+        }
+        #footerLogo img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.35));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        #footerLogo:hover img { transform: scale(1.1); filter: drop-shadow(0 0 18px rgba(255,255,255,0.55)); }
         .footer-brand p { opacity: 0.8; font-size: 0.95rem; line-height: 1.7; }
         .footer h4 { font-size: 1rem; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
         .footer-links { list-style: none; }
@@ -780,14 +939,73 @@
             gap: 0.8rem;
             margin-bottom: 1.5rem;
         }
-        .add-product-row select {
+        .product-search-wrapper {
             flex: 1;
-            padding: 0.6rem 0.9rem;
+            position: relative;
+        }
+        .product-search-input {
+            width: 100%;
+            padding: 0.6rem 0.9rem 0.6rem 2.2rem;
             border: 2px dashed var(--border);
             border-radius: 10px;
             font-family: 'Lato', sans-serif;
             font-size: 0.9rem;
             background: var(--bg);
+            transition: var(--transition);
+        }
+        .product-search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            border-style: solid;
+            box-shadow: 0 0 0 3px rgba(74,124,89,0.1);
+        }
+        .product-search-icon {
+            position: absolute;
+            left: 0.7rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.85rem;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .product-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-top: 4px;
+        }
+        .product-dropdown.open { display: block; }
+        .product-dropdown-item {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            transition: background 0.15s ease;
+            border-bottom: 1px solid var(--border);
+        }
+        .product-dropdown-item:last-child { border-bottom: none; }
+        .product-dropdown-item:hover { background: #f0faf3; }
+        .product-dropdown-item.selected { background: #e8f5e9; font-weight: 700; }
+        .product-dropdown-item .pd-emoji { font-size: 1.3rem; }
+        .product-dropdown-item .pd-info { flex: 1; }
+        .product-dropdown-item .pd-name { font-weight: 600; }
+        .product-dropdown-item .pd-price { font-size: 0.8rem; color: var(--primary); font-weight: 700; }
+        .product-dropdown-empty {
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.85rem;
         }
         .add-product-btn {
             padding: 0.6rem 1.2rem;
@@ -906,6 +1124,22 @@
         }
         .btn-save-order:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,165,116,0.3); }
 
+        /* Order buttons disabled state */
+        .order-actions .btn-save-order,
+        .order-actions .btn-print-order,
+        .order-actions .btn-whatsapp {
+            opacity: 1;
+            transition: var(--transition);
+        }
+        .order-actions .btn-save-order.disabled,
+        .order-actions .btn-print-order.disabled,
+        .order-actions .btn-whatsapp.disabled {
+            opacity: 0.4;
+            cursor: not-allowed !important;
+            pointer-events: none;
+            filter: grayscale(40%);
+        }
+
         /* Order Section on main page */
         .order-section {
             background: linear-gradient(135deg, #f0faf3 0%, #e8f5e9 100%);
@@ -979,6 +1213,11 @@
         body.dark-mode .invoice-field select,
         body.dark-mode .invoice-field textarea { background: #1a1a2e; color: #e0e0e0; border-color: #2a2a4a; }
         body.dark-mode .add-product-row select { background: #1a1a2e; color: #e0e0e0; }
+        body.dark-mode .product-search-input { background: #1a1a2e; color: #e0e0e0; border-color: #2a2a4a; }
+        body.dark-mode .product-dropdown { background: #16213e; border-color: #2a2a4a; }
+        body.dark-mode .product-dropdown-item { border-bottom-color: #2a2a4a; color: #e0e0e0; }
+        body.dark-mode .product-dropdown-item:hover { background: #1a2742; }
+        body.dark-mode .product-dropdown-item.selected { background: #1a3a2a; }
         body.dark-mode .qty-value { border-color: #2a2a4a; }
         body.dark-mode .qty-btn { background: #1a1a2e; }
         body.dark-mode .order-totals { background: #1a1a2e; }
@@ -999,6 +1238,11 @@
             color: var(--text);
         }
         .dark-toggle:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-logo, .hero-logo-chip, .hero-logo-chip::after, #footerLogo, #navLogoIcon, .petal { animation: none !important; }
+            .falling-petal { display: none; }
+        }
 
         /* ── SCROLL REVEAL ── */
         .reveal {
@@ -1061,8 +1305,9 @@
             will-change: transform;
         }
         .gallery-item {
-            min-width: 280px;
-            aspect-ratio: 1;
+            min-width: 220px;
+            max-width: 220px;
+            aspect-ratio: 4/3;
             border-radius: var(--radius);
             overflow: hidden;
             cursor: pointer;
@@ -1086,7 +1331,7 @@
             bottom: 0; left: 0; right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
             color: white;
-            padding: 1.2rem;
+            padding: 0.8rem;
             transform: translateY(0);
             transition: var(--transition);
         }
@@ -1368,6 +1613,128 @@
         body.season-mothers { --primary: #ad1457; --primary-dark: #880e4f; --primary-light: #d81b60; --accent: #f48fb1; --accent-light: #fce4ec; }
         body.season-summer { --primary: #0277bd; --primary-dark: #01579b; --primary-light: #039be5; --accent: #ff6f00; --accent-light: #fff3e0; }
 
+        /* ── PRODUCT DETAIL MODAL ── */
+        .product-detail-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            z-index: 2500;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .product-detail-overlay.open { display: flex; }
+        .product-detail-card {
+            background: white;
+            border-radius: 24px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+            animation: pdIn 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+        @keyframes pdIn {
+            from { opacity: 0; transform: scale(0.85) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .pd-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            font-size: 1.5rem;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: var(--transition);
+        }
+        .pd-close:hover { background: #f0f0f0; transform: scale(1.1); }
+        .pd-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 24px 24px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .pd-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 24px 24px 0 0;
+        }
+        .pd-body { padding: 1.8rem 2rem 2rem; }
+        .pd-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+        }
+        .pd-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+        .pd-desc {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+        }
+        .pd-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .pd-actions { display: flex; gap: 0.8rem; }
+        .pd-btn-add {
+            flex: 1;
+            padding: 0.95rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .pd-btn-add:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(74,124,89,0.3); }
+        .pd-btn-close {
+            padding: 0.95rem 1.5rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .pd-btn-close:hover { background: var(--primary); color: white; }
+        body.dark-mode .product-detail-card { background: #16213e; }
+        body.dark-mode .pd-close { background: rgba(22,33,62,0.9); color: #e0e0e0; }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
             .mobile-toggle { display: block; }
@@ -1385,6 +1752,7 @@
             }
             .nav-links.open { right: 0; }
             .hero-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+            .hero-logo-chip img { max-width: 170px; max-height: 100px; }
             .hero-text h1 { font-size: 2.5rem; }
             .hero-text p { margin: 0 auto 2rem; }
             .hero-buttons { justify-content: center; }
@@ -1403,7 +1771,7 @@
             .whatsapp-float { bottom: 5rem; left: 1rem; width: 50px; height: 50px; }
             .whatsapp-float svg { width: 24px; height: 24px; }
             .floating-order { bottom: 7rem; right: 1rem; padding: 0.7rem 1.2rem; font-size: 0.85rem; }
-            .gallery-item { min-width: 200px; }
+            .gallery-item { min-width: 180px; max-width: 180px; }
             .gallery-carousel-track-container { margin: 0 2.5rem; }
             .gallery-arrow { width: 40px; height: 40px; font-size: 1.2rem; }
         }
@@ -1414,7 +1782,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo" id="nav-logo">
-                <span id="navLogoIcon">🌿</span> <span class="editable" data-key="nav-logo">Flores & Arte</span>
+                <span id="navLogoIcon">🌿</span> <span class="editable rose-name" data-key="nav-logo">Flores & Arte</span>
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#inicio">Inicio</a></li>
@@ -1436,6 +1804,7 @@
     <section class="hero" id="inicio">
         <div class="hero-content">
             <div class="hero-text">
+                <div class="hero-logo" id="heroLogo"></div>
                 <h1><span class="editable" data-key="hero-title">Donde cada flor cuenta una <em>historia</em></span></h1>
                 <p class="editable" data-key="hero-desc">Creamos arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables. Con más de 15 años de experiencia, cada pétalo es elegido con amor.</p>
                 <div class="hero-buttons">
@@ -1659,7 +2028,7 @@
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <h3>🌿 <span class="editable" data-key="footer-brand">Flores & Arte</span></h3>
+                <h3><span id="footerLogo">🌿</span> <span class="editable rose-name" data-key="footer-brand">Flores & Arte</span></h3>
                 <p class="editable" data-key="footer-desc">Transformamos la naturaleza en arte. Cada arreglo es una obra única creada con pasión y dedicación para making tus momentos más especiales aún más memorables.</p>
             </div>
             <div>
@@ -1722,6 +2091,24 @@
             <div class="modal-alert-actions" id="modalAlertActions">
                 <button class="modal-alert-btn primary" onclick="closeModalAlert(true)">Aceptar</button>
                 <button class="modal-alert-btn" onclick="closeModalAlert(false)" style="display:none;" id="modalAlertCancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div class="product-detail-overlay" id="productDetailModal">
+        <div class="product-detail-card">
+            <button class="pd-close" onclick="closeProductDetail()">✕</button>
+            <div class="pd-image" id="pdImage"></div>
+            <div class="pd-body">
+                <span class="pd-tag" id="pdTag"></span>
+                <h2 class="pd-name" id="pdName"></h2>
+                <p class="pd-desc" id="pdDesc"></p>
+                <div class="pd-price" id="pdPrice"></div>
+                <div class="pd-actions">
+                    <button class="pd-btn-add" id="pdAddBtn">🛒 Agregar al Pedido</button>
+                    <button class="pd-btn-close" onclick="closeProductDetail()">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1807,9 +2194,11 @@
                 <!-- Order Items -->
                 <div class="invoice-section-title">🛒 Productos del Pedido</div>
                 <div class="add-product-row">
-                    <select id="of-product-select">
-                        <option value="">Seleccionar producto...</option>
-                    </select>
+                    <div class="product-search-wrapper">
+                        <span class="product-search-icon">🔍</span>
+                        <input type="text" id="of-product-search" class="product-search-input" placeholder="Buscar producto..." autocomplete="off">
+                        <div id="productDropdown" class="product-dropdown"></div>
+                    </div>
                     <button class="add-product-btn" onclick="addOrderItem()">+ Agregar</button>
                 </div>
                 <div class="table-container">
@@ -1870,16 +2259,19 @@
 
                 <!-- Actions -->
                 <div class="order-actions">
-                    <button class="btn-save-order" onclick="saveLocalOrder()">
+                    <button class="btn-save-order disabled" disabled onclick="saveLocalOrder()">
                         💾 Guardar Pedido
                     </button>
-                    <button class="btn-print-order" onclick="printOrder()">
+                    <button class="btn-print-order disabled" disabled onclick="printOrder()">
                         🖨️ Imprimir
                     </button>
-                    <button class="btn-whatsapp" onclick="sendWhatsAppOrder()">
+                    <button class="btn-whatsapp disabled" disabled onclick="sendWhatsAppOrder()">
                         <svg viewBox="0 0 32 32"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.744 3.058 9.374L1.054 31.25l6.118-1.97C9.702 31.036 12.764 32 16.004 32 24.83 32 32 24.822 32 16S24.83 0 16.004 0zm9.338 22.608c-.39 1.1-1.93 2.014-3.14 2.27-.824.176-1.9.312-5.508-1.188-4.618-1.922-7.578-6.612-7.808-6.92-.224-.308-1.826-2.432-1.826-4.638 0-2.206 1.16-3.284 1.57-3.734.39-.45.94-.564 1.252-.564.31 0 .62.002.888.016.284.014.664-.106 1.038.79.39.93 1.334 3.24 1.45 3.472.116.232.194.504.038.812-.156.312-.232.504-.464.776-.232.272-.488.608-.696.816-.232.232-.472.484-.202.948.27.464 1.198 1.98 2.57 3.208 1.764 1.58 3.248 2.07 3.712 2.3.464.23.736.194 1.008-.116.272-.31 1.16-1.35 1.472-1.814.312-.464.624-.39 1.052-.234.428.156 2.718 1.282 3.184 1.516.464.234.774.352.89.544.116.194.116 1.11-.274 2.21z"/></svg>
                         Enviar Pedido por WhatsApp
                     </button>
+                </div>
+                <div id="orderBtnHint" style="text-align:center; font-size:0.8rem; color:var(--text-light); margin-top:0.8rem; display:block;">
+                    ℹ️ Completa los datos del cliente y agrega productos para habilitar los botones
                 </div>
             </div>
         </div>
@@ -1893,6 +2285,7 @@
         heroTitle: 'Donde cada flor cuenta una <em>historia</em>',
         heroDesc: 'Creamos arreglos florales únicos que transforman momentos especiales en recuerdos inolvidables. Con más de 15 años de experiencia, cada pétalo es elegido con amor.',
         heroEmoji: '🌺',
+        heroImage: null,
         productsTag: 'Nuestra Colección',
         productsTitle: 'Arreglos Florales Exclusivos',
         productsDesc: 'Descubre nuestras creaciones más populares, diseñadas para cada ocasión y emoción.',
@@ -1971,8 +2364,8 @@
     // ── Render Products ──
     function renderProducts() {
         const grid = document.getElementById('productsGrid');
-        grid.innerHTML = (data.products || []).map(p => `
-            <div class="product-card">
+        grid.innerHTML = (data.products || []).map((p, i) => `
+            <div class="product-card" data-product-index="${i}" onclick="openProductDetail(${i})">
                 <div class="product-image" style="background: ${p.color || '#f5f5f5'}">
                     ${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius) 0 0 0;">` : p.emoji}
                 </div>
@@ -1984,6 +2377,67 @@
                 </div>
             </div>
         `).join('');
+    }
+
+    // ── Product Detail Modal ──
+    let currentDetailProductIndex = -1;
+    function openProductDetail(index) {
+        const product = data.products[index];
+        if (!product) return;
+        currentDetailProductIndex = index;
+        const imgEl = document.getElementById('pdImage');
+        if (product.image) {
+            imgEl.innerHTML = `<img src="${product.image}" alt="${product.name}">`;
+            imgEl.style.background = 'none';
+            imgEl.style.fontSize = '0';
+        } else {
+            imgEl.innerHTML = product.emoji || '🌸';
+            imgEl.style.background = product.color || '#f5f5f5';
+            imgEl.style.fontSize = '7rem';
+        }
+        document.getElementById('pdTag').textContent = product.tag || '';
+        document.getElementById('pdName').textContent = product.name;
+        document.getElementById('pdDesc').textContent = product.desc || '';
+        document.getElementById('pdPrice').textContent = product.price || '';
+        document.getElementById('productDetailModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeProductDetail() {
+        document.getElementById('productDetailModal').classList.remove('open');
+        document.body.style.overflow = '';
+        currentDetailProductIndex = -1;
+    }
+    document.getElementById('productDetailModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('productDetailModal')) closeProductDetail();
+    });
+    // "Agregar al Pedido" button → close detail modal, add product, open order modal
+    document.getElementById('pdAddBtn').addEventListener('click', () => {
+        if (currentDetailProductIndex < 0) return;
+        const idx = currentDetailProductIndex;
+        closeProductDetail();
+        openOrderModalWithProduct(idx);
+    });
+    function openOrderModalWithProduct(productIndex) {
+        // Open order modal first
+        openOrderModal();
+        // Directly add the product to the order (bypassing the select)
+        const product = data.products[productIndex];
+        if (!product) return;
+        const existing = orderItems.find(item => item.productIndex === productIndex);
+        if (existing) {
+            existing.qty++;
+        } else {
+            orderItems.push({
+                productIndex: productIndex,
+                name: product.name,
+                desc: product.desc,
+                price: parsePrice(product.price),
+                priceStr: product.price,
+                emoji: product.emoji || '🌸',
+                qty: 1
+            });
+        }
+        renderOrderItems();
     }
 
     // ── Render Services ──
@@ -2016,18 +2470,38 @@
         `).join('');
     }
 
-    // ── Hero Emoji ──
+    // ── Hero Emoji / Image ──
     function renderHeroEmoji() {
         const heroImg = document.getElementById('heroImage');
-        if (data.heroEmoji) heroImg.textContent = data.heroEmoji;
+        if (data.heroImage) {
+            heroImg.innerHTML = `<img src="${data.heroImage}" alt="Hero" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`;
+            heroImg.style.background = 'none';
+            heroImg.style.fontSize = '0';
+        } else {
+            heroImg.innerHTML = data.heroEmoji || '🌺';
+            heroImg.style.background = '';
+            heroImg.style.fontSize = '';
+        }
     }
 
     // ── Logo Image ──
     function renderLogoImage() {
+        // Navbar: show uploaded logo or fallback to emoji
         const logoIcon = document.getElementById('navLogoIcon');
-        if (data.logoImage && logoIcon) {
-            logoIcon.innerHTML = `<img src="${data.logoImage}" alt="Logo" style="width:32px;height:32px;object-fit:contain;border-radius:6px;">`;
+        if (logoIcon) {
+            if (data.logoImage) {
+                logoIcon.innerHTML = `<img src="${data.logoImage}" alt="Logo" style="width:44px;height:44px;object-fit:contain;border-radius:10px;background:rgba(255,255,255,0.92);padding:3px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">`;
+            } else {
+                logoIcon.textContent = '🌿';
+            }
         }
+        const footerLogo = document.getElementById('footerLogo');
+        if (data.logoImage && footerLogo) {
+            footerLogo.innerHTML = `<span class="petal petal-1">🌹</span><span class="petal petal-2">🌹</span><img src="${data.logoImage}" alt="Logo">`;
+        }
+        // Hero logo removed — logo now lives in the navbar only
+        const heroLogo = document.getElementById('heroLogo');
+        if (heroLogo) heroLogo.style.display = 'none';
     }
 
     function renderAboutImage() {
@@ -2257,11 +2731,34 @@
         setupScrollReveal();
     }
 
-    // First render with defaults (fast, no flash)
-    renderAll();
+    // Hide content until data is loaded (prevents emoji→image flash)
+    document.body.classList.add('data-loading');
 
-    // Then reload from server and re-render
-    loadData().then(() => { renderAll(); setupWhatsAppFloat(); });
+    // Load data from server first, then render once
+    loadData().then(() => {
+        renderAll();
+        setupFallingPetals();
+        setupWhatsAppFloat();
+        document.body.classList.remove('data-loading');
+    });
+
+    // ── Falling rose petals in the hero ──
+    function setupFallingPetals() {
+        const hero = document.querySelector('.hero');
+        if (!hero || hero.querySelector('.falling-petal')) return;
+        const emojis = ['🌹', '🌸', '🌺', '🌷'];
+        for (let i = 0; i < 7; i++) {
+            const p = document.createElement('span');
+            p.className = 'falling-petal';
+            p.textContent = emojis[i % emojis.length];
+            p.style.left = (5 + Math.random() * 90).toFixed(1) + '%';
+            p.style.fontSize = (14 + Math.random() * 16).toFixed(0) + 'px';
+            p.style.setProperty('--p-op', (0.35 + Math.random() * 0.35).toFixed(2));
+            p.style.animationDuration = (9 + Math.random() * 7).toFixed(1) + 's';
+            p.style.animationDelay = (-Math.random() * 16).toFixed(1) + 's';
+            hero.appendChild(p);
+        }
+    }
 
     // ── Navbar scroll ──
     window.addEventListener('scroll', () => {
@@ -2342,10 +2839,14 @@
         // Load brand name from data (already loaded)
         document.getElementById('orderBrandName').textContent = data.navLogo || 'Flores & Arte';
 
-        // Populate product selector
-        const select = document.getElementById('of-product-select');
-        select.innerHTML = '<option value="">Seleccionar producto...</option>' +
-            (data.products || []).map((p, i) => `<option value="${i}">${p.emoji || '🌸'} ${p.name} — ${p.price}</option>`).join('');
+        // Populate product search dropdown
+        const searchInput = document.getElementById('of-product-search');
+        const dropdown = document.getElementById('productDropdown');
+        if (searchInput) {
+            searchInput.value = '';
+            selectedProductIndex = -1;
+            renderProductDropdown('');
+        }
 
         // Reset items
         orderItems = [];
@@ -2354,6 +2855,9 @@
         // Show modal
         document.getElementById('orderModal').classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        // Init button state
+        updateOrderButtons();
 
         // Init map
         initMapPlaceholder();
@@ -2369,13 +2873,90 @@
         if (e.target === document.getElementById('orderModal')) closeOrderModal();
     });
 
+    let selectedProductIndex = -1;
+
+    function renderProductDropdown(query) {
+        const dropdown = document.getElementById('productDropdown');
+        if (!dropdown) return;
+        const products = data.products || [];
+        const q = (query || '').toLowerCase().trim();
+        const filtered = products
+            .map((p, i) => ({ ...p, _idx: i }))
+            .filter(p => !q || p.name.toLowerCase().includes(q) || (p.desc || '').toLowerCase().includes(q) || (p.tag || '').toLowerCase().includes(q));
+
+        if (filtered.length === 0) {
+            dropdown.innerHTML = '<div class="product-dropdown-empty">🔍 No se encontraron productos</div>';
+            return;
+        }
+
+        dropdown.innerHTML = filtered.map(p => `
+            <div class="product-dropdown-item${selectedProductIndex === p._idx ? ' selected' : ''}" data-index="${p._idx}">
+                <span class="pd-emoji">${p.emoji || '🌸'}</span>
+                <div class="pd-info">
+                    <div class="pd-name">${p.name}${p.tag ? ' <span style="font-size:0.7rem;opacity:0.6;">(' + p.tag + ')</span>' : ''}</div>
+                    <div class="pd-price">${p.price}</div>
+                </div>
+            </div>
+        `).join('');
+
+        // Add click handlers
+        dropdown.querySelectorAll('.product-dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                selectedProductIndex = parseInt(this.dataset.index);
+                const product = data.products[selectedProductIndex];
+                document.getElementById('of-product-search').value = product.name;
+                dropdown.classList.remove('open');
+            });
+        });
+    }
+
+    // Search input event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('of-product-search');
+        const dropdown = document.getElementById('productDropdown');
+        if (!searchInput || !dropdown) return;
+
+        searchInput.addEventListener('input', function() {
+            selectedProductIndex = -1;
+            renderProductDropdown(this.value);
+            dropdown.classList.add('open');
+        });
+
+        searchInput.addEventListener('focus', function() {
+            renderProductDropdown(this.value);
+            dropdown.classList.add('open');
+        });
+
+        // Close dropdown on outside click
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // Keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {
+            const items = dropdown.querySelectorAll('.product-dropdown-item');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const first = items[0];
+                if (first) first.click();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (selectedProductIndex >= 0) {
+                    addOrderItem();
+                }
+            } else if (e.key === 'Escape') {
+                dropdown.classList.remove('open');
+            }
+        });
+    });
+
     function addOrderItem() {
-        const select = document.getElementById('of-product-select');
-        const idx = parseInt(select.value);
-        if (isNaN(idx)) return;
+        const idx = selectedProductIndex;
+        if (idx < 0 || !data.products || !data.products[idx]) return;
 
         const product = data.products[idx];
-        // Check if already in order
         const existing = orderItems.find(item => item.productIndex === idx);
         if (existing) {
             existing.qty++;
@@ -2390,7 +2971,12 @@
                 qty: 1
             });
         }
-        select.value = '';
+        // Reset search
+        const searchInput = document.getElementById('of-product-search');
+        const dropdown = document.getElementById('productDropdown');
+        if (searchInput) searchInput.value = '';
+        if (dropdown) dropdown.classList.remove('open');
+        selectedProductIndex = -1;
         renderOrderItems();
     }
 
@@ -2411,6 +2997,7 @@
             tbody.innerHTML = '';
             emptyMsg.style.display = 'block';
             totals.style.display = 'none';
+            updateOrderButtons();
             return;
         }
 
@@ -2444,7 +3031,48 @@
         const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
         document.getElementById('orderSubtotal').textContent = formatPrice(subtotal);
         document.getElementById('orderGrandTotal').textContent = formatPrice(subtotal);
+        updateOrderButtons();
     }
+
+    // Enable/disable order action buttons based on order completion
+    function updateOrderButtons() {
+        const btnSave = document.querySelector('.btn-save-order');
+        const btnPrint = document.querySelector('.btn-print-order');
+        const btnWhatsApp = document.querySelector('.btn-whatsapp');
+        if (!btnSave || !btnPrint || !btnWhatsApp) return;
+
+        const name = (document.getElementById('of-name') || {}).value || '';
+        const phone = (document.getElementById('of-phone') || {}).value || '';
+        const address = (document.getElementById('of-address') || {}).value || '';
+        const date = (document.getElementById('of-date') || {}).value || '';
+
+        const hasItems = orderItems.length > 0;
+        const hasRequiredFields = name.trim() !== '' && phone.trim() !== '' && address.trim() !== '' && date.trim() !== '';
+        const orderComplete = hasItems && hasRequiredFields;
+
+        [btnSave, btnPrint, btnWhatsApp].forEach(btn => {
+            if (orderComplete) {
+                btn.classList.remove('disabled');
+                btn.removeAttribute('disabled');
+            } else {
+                btn.classList.add('disabled');
+                btn.setAttribute('disabled', 'disabled');
+            }
+        });
+
+        // Show/hide hint
+        const hint = document.getElementById('orderBtnHint');
+        if (hint) hint.style.display = orderComplete ? 'none' : 'block';
+    }
+
+    // Listen for input changes on required fields to re-evaluate button state
+    ['of-name', 'of-phone', 'of-address', 'of-date'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateOrderButtons);
+            el.addEventListener('change', updateOrderButtons);
+        }
+    });
 
     function changeQty(index, delta) {
         orderItems[index].qty = Math.max(1, orderItems[index].qty + delta);
@@ -2780,10 +3408,7 @@
         mapEl.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encoded}&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy"></iframe>`;
     })();
 
-    // Product cards → order modal
-    document.getElementById('productsGrid').addEventListener('click', e => {
-        if (e.target.closest('.product-card')) openOrderModal();
-    });
+    // Product cards → product detail modal (handled via onclick in renderProducts)
 
     </script>
 </body>
