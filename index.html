@@ -41,6 +41,14 @@
             overflow-x: hidden;
         }
         body.data-loading * { transition: none !important; animation: none !important; }
+        body.data-loading #productsGrid,
+        body.data-loading #galleryTrack,
+        body.data-loading #servicesGrid,
+        body.data-loading #testimonialsGrid,
+        body.data-loading #heroImage,
+        body.data-loading #aboutImage,
+        body.data-loading .hero-logo-chip,
+        body.data-loading #footerLogo { visibility: hidden; }
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
@@ -427,7 +435,7 @@
         }
         .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
         .product-image {
-            height: 220px;
+            height: 320px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -435,6 +443,7 @@
             position: relative;
             overflow: hidden;
             border-radius: var(--radius) var(--radius) 0 0;
+            background: #fafafa;
         }
         .product-image::after {
             content: '';
@@ -1690,8 +1699,9 @@
         }
         .pd-image img {
             width: 100%; height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 24px 24px 0 0;
+            background: #fafafa;
         }
         .pd-body { padding: 1.8rem 2rem 2rem; }
         .pd-tag {
@@ -2388,7 +2398,7 @@
         grid.innerHTML = (data.products || []).map((p, i) => `
             <div class="product-card" data-product-index="${i}" onclick="openProductDetail(${i})">
                 <div class="product-image" style="background: ${p.color || '#f5f5f5'}">
-                    ${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius) 0 0 0;">` : p.emoji}
+                    ${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;border-radius:var(--radius) 0 0 0;">` : p.emoji}
                 </div>
                 <div class="product-info">
                     <span class="product-tag">${p.tag}</span>
